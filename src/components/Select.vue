@@ -3,6 +3,10 @@
 		position: relative;
 	}
 
+  .v-select .disabled {
+    cursor: not-allowed !important;
+  }
+
 	.v-select .open-indicator {
 		position: absolute;
 		bottom: 6px;
@@ -193,13 +197,13 @@
 							@blur="open = false"
 							@focus="open = true"
 							type="search"
-							class="form-control"
+              :class="[{'disabled': disabled}, 'form-control']"
 							:placeholder="searchPlaceholder"
 							:readonly="!searchable"
 							:style="{ width: isValueEmpty ? '100%' : 'auto' }"
 			>
 
-			<i v-el:open-indicator role="presentation" class="open-indicator"></i>
+      <i v-el:open-indicator role="presentation" :class="[{'disabled': disabled}, 'open-indicator']"></i>
 
 			<slot name="spinner">
 				<div class="spinner" v-show="loading">Loading...</div>
@@ -283,6 +287,15 @@
 				type: Boolean,
 				default: false
 			},
+
+      /**
+       * Disable the entire component.
+       * @type {Boolean}
+       */
+      disabled: {
+        type: Boolean,
+        default: false
+      },
 
 			/**
 			 * Equivalent to the `placeholder` attribute on an `<input>`.
@@ -495,8 +508,10 @@
 					if (this.open) {
 						this.$els.search.blur() // dropdown will close on blur
 					} else {
-						this.open = true
-						this.$els.search.focus()
+            if (!this.disabled) {
+              this.open = true
+              this.$els.search.focus()
+            }
 					}
 				}
 			},
