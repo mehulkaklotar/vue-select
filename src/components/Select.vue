@@ -7,6 +7,10 @@
     cursor: not-allowed !important;
   }
 
+  .v-select .dropdown-toggle .disabled {
+    background-color: rgb(248, 248, 248);
+  }
+
 	.v-select .open-indicator {
 		position: absolute;
 		bottom: 6px;
@@ -176,7 +180,7 @@
 
 <template>
 	<div class="dropdown v-select" :class="dropdownClasses">
-		<div v-el:toggle @mousedown.prevent="toggleDropdown" class="dropdown-toggle clearfix" type="button">
+    <div v-el:toggle @mousedown.prevent="toggleDropdown" :class="['dropdown-toggle', 'clearfix', {'disabled': disabled}]" type="button">
 
         <span class="selected-tag" v-for="option in valueAsArray" track-by="$index">
           {{ getOptionLabel(option) }}
