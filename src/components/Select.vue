@@ -5,10 +5,7 @@
 
   .v-select .disabled {
     cursor: not-allowed !important;
-  }
-
-  .v-select .dropdown-toggle .disabled {
-    background-color: rgb(248, 248, 248);
+    background-color: rgb(248, 248, 248) !important;
   }
 
 	.v-select .open-indicator {
