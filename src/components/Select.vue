@@ -176,7 +176,7 @@
 
         <span class="selected-tag" v-for="option in valueAsArray" v-bind:key="option.index">
           {{ getOptionLabel(option) }}
-          <button v-if="multiple" @click="select(option)" type="button" class="close">
+          <button v-if="multiple" @click="deselect(option)" type="button" class="close">
             <span aria-hidden="true">&times;</span>
           </button>
         </span>
@@ -199,14 +199,14 @@
 							:style="{ width: isValueEmpty ? '100%' : 'auto' }"
 			>
 
-			<i ref="openIndicator" role="presentation" class="open-indicator"></i>
+			<i v-if="!noDrop" ref="openIndicator" role="presentation" class="open-indicator"></i>
 
 			<slot name="spinner">
 				<div class="spinner" v-show="mutableLoading">Loading...</div>
 			</slot>
 		</div>
 
-		<ul ref="dropdownMenu" v-show="open" :transition="transition" class="dropdown-menu" :style="{ 'max-height': maxHeight }">
+		<ul ref="dropdownMenu" v-if="dropdownOpen" :transition="transition" class="dropdown-menu" :style="{ 'max-height': maxHeight }">
 			<li v-for="(option, index) in filteredOptions" v-bind:key="index" :class="{ active: isOptionSelected(option), highlight: index === typeAheadPointer }" @mouseover="typeAheadPointer = index">
 				<a @mousedown.prevent="select(option)">
 					{{ getOptionLabel(option) }}
@@ -397,6 +397,11 @@
 				type: Boolean,
 				default: false
 			},
+
+			noDrop: {
+				type: Boolean,
+				default: false
+			}
 		},
 
 		data() {
@@ -481,7 +486,7 @@
 			 */
 			select(option) {
 				if (this.isOptionSelected(option)) {
-					this.deselect(option)
+					this.taggable ? null : this.deselect(option)
 				} else {
 					if (this.taggable && !this.optionExists(option)) {
 						option = this.createOption(option)
@@ -632,10 +637,19 @@
 			 */
 			dropdownClasses() {
 				return {
-					open: this.open,
+					open: this.dropdownOpen,
 					searchable: this.searchable,
 					loading: this.mutableLoading
 				}
+			},
+
+			/**
+			 * Return the current state of the
+			 * dropdown menu.
+			 * @return {Boolean} True if open
+			 */
+			dropdownOpen() {
+				return this.noDrop ? false : this.open
 			},
 
 			/**
@@ -658,12 +672,11 @@
 			 * @return {array}
 			 */
 			filteredOptions() {
-
 				let options = this.mutableOptions.filter((option) => {
 					if( typeof option === 'object' ) {
-						return option[this.label].indexOf(this.search) > -1
+						return option[this.label].toLowerCase().indexOf(this.search.toLowerCase()) > -1
 					}
-					return option.indexOf(this.search) > -1
+					return option.toLowerCase().indexOf(this.search.toLowerCase()) > -1
 				})
 				if (this.taggable && this.search.length && !this.optionExists(this.search)) {
 					options.unshift(this.search)

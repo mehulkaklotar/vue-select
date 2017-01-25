@@ -1,14 +1,14 @@
+// flow
 /* global describe, it, expect */
 
 import Vue from 'vue'
 import vSelect from 'src/components/Select.vue'
-// import vSelect from '../../../dist/vue-select'
 import pointerScroll from 'src/mixins/pointerScroll.js'
-
-Vue.component('v-select', vSelect)
 
 //  http://vue-loader.vuejs.org/en/workflow/testing-with-mocks.html
 const Mock = require('!!vue?inject!src/components/Select.vue')
+
+Vue.component('v-select', vSelect)
 
 /**
  * Simulate a DOM event.
@@ -25,6 +25,13 @@ function trigger(target, event, process) {
 	return e
 }
 
+/**
+ * Simulate a Mouse event.
+ * @param target
+ * @param event
+ * @param process
+ * @returns {Event}
+ */
 function triggerMouse(target, event, process) {
 	var e = document.createEvent('MouseEvent')
 	e.initEvent('event', true, true)
@@ -33,6 +40,13 @@ function triggerMouse(target, event, process) {
 	return e
 }
 
+/**
+ * Simulate a Focus event.
+ * @param target
+ * @param event
+ * @param process
+ * @returns {Event}
+ */
 function triggerFocusEvent(target, event, process) {
 	var e = document.createEvent('FocusEvent')
 	e.initEvent('event', true, true)
@@ -253,6 +267,35 @@ describe('Select.vue', () => {
 				})
 
 			})
+		})
+	})
+
+	describe('Filtering Options', () => {
+		it('should filter an array of strings', () => {
+			const vm = new Vue({
+				template: `<div><v-select ref="select" :options="['foo','bar','baz']" v-model="value"></v-select></div>`,
+				data: {value: 'foo'}
+			}).$mount()
+			vm.$refs.select.search = 'ba'
+			expect(vm.$refs.select.filteredOptions).toEqual(['bar','baz'])
+		})
+
+		it('should filter without case-sensitivity', () => {
+			const vm = new Vue({
+				template: `<div><v-select ref="select" :options="['Foo','Bar','Baz']" v-model="value"></v-select></div>`,
+				data: {value: 'foo'}
+			}).$mount()
+			vm.$refs.select.search = 'ba'
+			expect(vm.$refs.select.filteredOptions).toEqual(['Bar','Baz'])
+		})
+
+		it('can filter an array of objects based on the objects label key', () => {
+			const vm = new Vue({
+				template: `<div><v-select ref="select" :options="[{label: 'Foo', value: 'foo'}, {label: 'Bar', value: 'bar'}, {label: 'Baz', value: 'baz'}]" v-model="value"></v-select></div>`,
+				data: {value: 'foo'}
+			}).$mount()
+			vm.$refs.select.search = 'ba'
+			expect(JSON.stringify(vm.$refs.select.filteredOptions)).toEqual(JSON.stringify([{label: 'Bar', value: 'bar'}, {label: 'Baz', value: 'baz'}]))
 		})
 	})
 
@@ -481,23 +524,26 @@ describe('Select.vue', () => {
 				expect(vm.$children[0].scrollTo).toHaveBeenCalledWith(1)
 			})
 
-			it('should scroll down if the pointer is below the current viewport bounds', () => {
+			/**
+			 * @link 	https://github.com/vuejs/vue-loader/issues/434
+			 * @todo 	vue-loader/inject-loader fails when used twice in the same file,
+			 *        so the mock here is abastracted to a separate file.
+			 */
+			xit('should scroll down if the pointer is below the current viewport bounds', () => {
 				let methods = Object.assign(pointerScroll.methods, {
-					pixelsToPointerBottom() {
-						return 2
-					},
-					viewport() {
-						return {top: 0, bottom: 1}
-					}
-				})
-
-				let mock = Mock({
-					'../mixins/pointerScroll': {methods}
+				  pixelsToPointerBottom() {
+				    return 2
+				  },
+				  viewport() {
+				    return {top: 0, bottom: 1}
+				  }
 				})
 				const vm = new Vue({
 					template: `<div><v-select :options="['one', 'two', 'three']"></v-select></div>`,
 					components: {
-						'v-select': mock
+					  'v-select': Mock({
+					    '../mixins/pointerScroll': {methods}
+					  })
 					},
 				}).$mount()
 
@@ -510,19 +556,23 @@ describe('Select.vue', () => {
 		describe('Measuring pixel distances', () => {
 			it('should calculate pointerHeight as the offsetHeight of the pointer element if it exists', () => {
 				const vm = new Vue({
-					template: '<div><v-select :options="[\'one\', \'two\', \'three\']""></v-select></div>',
-					components: {vSelect},
+					template: `<div><v-select :options="['one', 'two', 'three']"></v-select></div>`,
 				}).$mount()
 
-				//  Fresh instances start with the pointer at -1
-				vm.$children[0].typeAheadPointer = -1
-				expect(vm.$children[0].pointerHeight()).toEqual(0)
+				// dropdown must be open for $refs to exist
+				vm.$children[0].open = true
 
-				vm.$children[0].typeAheadPointer = 100
-				expect(vm.$children[0].pointerHeight()).toEqual(0)
+				Vue.nextTick(() => {
+					//  Fresh instances start with the pointer at -1
+					vm.$children[0].typeAheadPointer = -1
+					expect(vm.$children[0].pointerHeight()).toEqual(0)
 
-				vm.$children[0].typeAheadPointer = 1
-				expect(vm.$children[0].pointerHeight()).toEqual(vm.$children[0].$refs.dropdownMenu.children[1].offsetHeight)
+					vm.$children[0].typeAheadPointer = 100
+					expect(vm.$children[0].pointerHeight()).toEqual(0)
+
+					vm.$children[0].typeAheadPointer = 1
+					expect(vm.$children[0].pointerHeight()).toEqual(vm.$children[0].$refs.dropdownMenu.children[1].offsetHeight)
+				})
 			})
 		})
 	})
@@ -727,7 +777,6 @@ describe('Select.vue', () => {
 			let two = 'two'
 			const vm = new Vue({
 				template: '<div><v-select :options="options" :value="value" :multiple="true" taggable></v-select></div>',
-				components: {vSelect},
 				data: {
 					value: null,
 					options: ['one', two]
@@ -747,7 +796,6 @@ describe('Select.vue', () => {
 			let two = {label: 'two'}
 			const vm = new Vue({
 				template: '<div><v-select :options="options" taggable></v-select></div>',
-				components: {vSelect},
 				data: {
 					options: [{label: 'one'}, two]
 				}
@@ -779,6 +827,45 @@ describe('Select.vue', () => {
 				expect(vm.$children[0].mutableValue).toEqual([{label: 'one'}])
 				done()
 			})
+		})
+
+		it('should not allow duplicate tags when using string options', (done) => {
+				const vm = new Vue({
+					template: `<div><v-select ref="select" taggable multiple></v-select></div>`,
+				}).$mount()
+				vm.$refs.select.search = 'one'
+				searchSubmit(vm)
+				Vue.nextTick(() => {
+					expect(vm.$refs.select.mutableValue).toEqual(['one'])
+					expect(vm.$refs.select.search).toEqual('')
+					vm.$refs.select.search = 'one'
+					searchSubmit(vm)
+					Vue.nextTick(() => {
+						expect(vm.$refs.select.mutableValue).toEqual(['one'])
+						expect(vm.$refs.select.search).toEqual('')
+						done()
+					})
+				})
+		})
+
+		it('should not allow duplicate tags when using object options', (done) => {
+				const vm = new Vue({
+					template: `<div><v-select ref="select" taggable multiple></v-select></div>`,
+				}).$mount()
+				vm.$refs.select.search = 'one'
+				searchSubmit(vm)
+				Vue.nextTick(() => {
+					expect(vm.$refs.select.mutableValue).toEqual(['one'])
+					expect(vm.$refs.select.search).toEqual('')
+					vm.$refs.select.search = 'one'
+					searchSubmit(vm)
+					Vue.nextTick(() => {
+						expect(vm.$refs.select.mutableValue).toEqual(['one'])
+						expect(vm.$refs.select.search).toEqual('')
+						done()
+					})
+				})
+
 		})
 	})
 

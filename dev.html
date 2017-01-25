@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Vue Select Dev</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css"> -->
+    <style>
+      html,body,#app {
+        height: 100vh;
+      }
+      #app {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .select {
+        width: 25em;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+        <v-select class="select" multiple taggable v-model="value" :options="options"></v-select>
+        <!-- <v-select class="select" multiple push-tags taggable :options="[{label: 'Foo', value: 'foo'}]"></v-select> -->
+        <!-- <v-select class="select" multiple push-tags></v-select> -->
+    </div>
+  </body>
+</html>

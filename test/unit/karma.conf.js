@@ -64,6 +64,9 @@ module.exports = function (config) {
     webpackMiddleware: {
       noInfo: true
     },
+    specReporter: {
+      suppressSkipped: true
+    },
     coverageReporter: {
       dir: './coverage',
       reporters: [
