@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import vSelect from './components/Select.vue'
-import countries from '../old_docs/data/advanced.js'
+import countries from 'docs/data/advanced.js'
 
 Vue.component('v-select', vSelect)
 

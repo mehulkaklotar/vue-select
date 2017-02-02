@@ -5,7 +5,7 @@ var projectRoot = path.resolve(__dirname, '../')
 
 module.exports = {
   entry: {
-    app: './src/dev.js'
+    app: process.argv.indexOf('--docs') > 0 ? './docs/docs.js' : './src/dev.js',
   },
   output: {
     path: config.build.assetsRoot,
@@ -20,6 +20,7 @@ module.exports = {
       'assets': path.resolve(__dirname, '../docs/assets'),
       'mixins': path.resolve(__dirname, '../src/mixins'),
       'components': path.resolve(__dirname, '../src/components'),
+      'docs': path.resolve(__dirname, '../docs'),
       'vue$': 'vue/dist/vue.common.js',
     }
   },

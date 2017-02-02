@@ -12,7 +12,7 @@ Object.keys(baseWebpackConfig.entry).forEach(function (name) {
 
 module.exports = merge(baseWebpackConfig, {
   module: {
-    loaders: utils.styleLoaders()
+    loaders: utils.styleLoaders().concat({ test: /\.md$/, loader: "html!markdown" })
   },
   // eval-source-map is faster for development
   devtool: '#eval-source-map',
@@ -27,8 +27,13 @@ module.exports = merge(baseWebpackConfig, {
     // https://github.com/ampedandwired/html-webpack-plugin
     new HtmlWebpackPlugin({
       filename: 'index.html',
-      template: 'dev.html',
+      template: process.argv.indexOf('--docs') > 0 ? './docs/docs.html' : 'dev.html',
       inject: true
     })
-  ]
+  ],
+  markdownLoader: {
+    highlight: function (code) {
+      return require('highlight.js').highlightAuto(code).value;
+    }
+  }
 })
