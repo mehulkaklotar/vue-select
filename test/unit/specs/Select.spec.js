@@ -813,6 +813,7 @@ describe('Select.vue', () => {
 				})
 			})
 		})
+
 		it('should not reset the selected value when the options property changes', (done) => {
 			const vm = new Vue({
 				template: '<div><v-select :options="options" :value="value" :multiple="true" taggable></v-select></div>',
@@ -841,7 +842,7 @@ describe('Select.vue', () => {
 					vm.$refs.select.search = 'one'
 					searchSubmit(vm)
 					Vue.nextTick(() => {
-						expect(vm.$refs.select.mutableValue).toEqual(['one'])
+						expect(vm.$refs.select.mutableValue).toEqual([])
 						expect(vm.$refs.select.search).toEqual('')
 						done()
 					})
@@ -860,7 +861,7 @@ describe('Select.vue', () => {
 					vm.$refs.select.search = 'one'
 					searchSubmit(vm)
 					Vue.nextTick(() => {
-						expect(vm.$refs.select.mutableValue).toEqual(['one'])
+						expect(vm.$refs.select.mutableValue).toEqual([])
 						expect(vm.$refs.select.search).toEqual('')
 						done()
 					})
