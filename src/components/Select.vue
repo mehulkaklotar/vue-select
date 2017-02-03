@@ -119,8 +119,7 @@
 
   .v-select .highlight a,
   .v-select li:hover > a {
-    background: #337ab7;
-    background: rgba(51, 122, 183, .75);
+    background: #5897fb;
     color: #fff;
   }
 
@@ -405,7 +404,7 @@
         default: false
       }
     },
-    
+
     data() {
       return {
         search: '',
