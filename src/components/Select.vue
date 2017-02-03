@@ -191,8 +191,8 @@
               @keydown.up.prevent="typeAheadUp"
               @keydown.down.prevent="typeAheadDown"
               @keyup.enter.prevent="typeAheadSelect"
-              @blur="open = false"
-              @focus="open = true"
+              @blur="onSearchBlur"
+              @focus="onSearchFocus"
               type="search"
               class="form-control"
               :placeholder="searchPlaceholder"
@@ -382,7 +382,7 @@
        */
       createOption: {
         type: Function,
-        default: function (newOption) {
+        default(newOption) {
           if (typeof this.mutableOptions[0] === 'object') {
             newOption = {[this.label]: newOption}
           }
@@ -400,6 +400,10 @@
         default: false
       },
 
+      /**
+       * Disable the dropdown entirely.
+       * @type {Boolean}
+       */
       noDrop: {
         type: Boolean,
         default: false
@@ -591,7 +595,7 @@
       /**
        * If there is any text in the search input, remove it.
        * Otherwise, blur the search input to close the dropdown.
-       * @return {[type]} [description]
+       * @return {void}
        */
       onEscape() {
         if (!this.search.length) {
@@ -599,6 +603,26 @@
         } else {
           this.search = ''
         }
+      },
+
+      /**
+       * Close the dropdown on blur.
+       * @emits  {search:blur}
+       * @return {void}
+       */
+      onSearchBlur() {
+        this.open = false
+        this.$emit('search:blur')
+      },
+
+      /**
+       * Open the dropdown on focus.
+       * @emits  {search:focus}
+       * @return {void}
+       */
+      onSearchFocus() {
+        this.open = true
+        this.$emit('search:focus')
       },
 
       /**
