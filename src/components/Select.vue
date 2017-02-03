@@ -118,7 +118,8 @@
   }
 
   .v-select .highlight a,
-  .v-select li:hover > a {
+  .v-select li:hover > a,
+  .v-select .active > a:hover {
     background: #5897fb;
     color: #fff;
   }
