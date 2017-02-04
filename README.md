@@ -12,17 +12,18 @@
 - +95% Test Coverage
 
 ## Documentation
-- [Demo & Docs](http://sagalbot.github.io/vue-select/)
-- [Live Example on JSBin](http://jsbin.com/saxaru/5/edit?html,js,output)
+- **[Demo & Docs](http://sagalbot.github.io/vue-select/)**
+- **[Example on JSBin](http://jsbin.com/saxaru/5/edit?html,js,output)**
 
-## Install / Usage
+## Install & Basic Usage
 
-**Vue Compatability**
-Version `2.x` of vue-select is compatible with Vue `2.x`. If you are on Vue `1.x`, you will need to use `1.x` of vue-select.
+#### Vue Compatability
+- `vue-select ~2.0` is compatible with `vue ~2.0`
+- `vue-select ~1.0` is compatible with `vue ~1.0`
 
 #### NPM
 
-``` bash
+```bash
 $ npm install vue-select
 ```
 
@@ -65,4 +66,4 @@ Vue.component('v-select', VueSelect.VueSelect);
 
 From there you can use as normal. Here's an [example on JSBin](http://jsbin.com/saxaru/5/edit?html,js,output).
 
-**For more information, please visit the [documentation](https://sagalbot.github.io/vue-select)
+### For more information, please visit the [vue-select documentation.](https://sagalbot.github.io/vue-select)
