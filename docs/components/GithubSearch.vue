@@ -70,7 +70,7 @@
 	<div>
 		<div class="github-search panel panel-default">
 			<div class="panel-heading">
-				<v-select :debounce="250" :value.sync="repo" :options="options" :on-search="getOptions" placeholder="Search GitHub Repositories..." label="full_name"></v-select>
+				<v-select :debounce="250" v-model="repo" :options="options" :on-search="getOptions" placeholder="Search GitHub Repositories..." label="full_name"></v-select>
 			</div>
 			<div class="panel-body" v-if="repo">
 				<img :src="repo.owner.avatar_url" alt="{{ repo.owner.login }}" class="gravatar">

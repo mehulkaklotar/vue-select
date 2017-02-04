@@ -113,13 +113,14 @@
 </style>
 
 <script type="text/babel">
-	import GitHubSearchBasic from 'components/GitHubSearchBasic.vue'
-	import GitHubSearch from 'components/GitHubSearch.vue'
-	import AjaxProps from './AjaxProps.vue'
-	import AjaxExample from './AjaxExample.vue'
+
+	// import GitHubSearchBasic from 'docs/components/GitHubSearchBasic.vue'
+	// import GitHubSearch from 'docs/components/GitHubSearch.vue'
+	// import AjaxProps from './AjaxProps.vue'
+	// import AjaxExample from './AjaxExample.vue'
 
 	export default {
-		components: {GitHubSearchBasic, GitHubSearch, AjaxProps, AjaxExample},
+		// components: {GitHubSearchBasic, GitHubSearch, AjaxProps, AjaxExample},
 		data() {
 			return {
 				basicSource: false,

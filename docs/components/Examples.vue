@@ -7,8 +7,8 @@
     </div>
 
     <div class="col-md-5">
-        <p>The resulting vue-select, and it's value: <v-code lang="json">{{ install | json }}</v-code></p>
-        <v-select :value.sync="install" :options="['foo','bar','baz']"></v-select>
+        <p>The resulting vue-select, and it's value: <v-code lang="json">{{ install }}</v-code></p>
+        <v-select v-model="install" :options="['foo','bar','baz']"></v-select>
     </div>
   </div>
 
@@ -65,7 +65,7 @@
       <p>The <code>.sync</code> data-binding modifier is completely optional. You may use <code>value</code> without a two-way binding to preselect options.</p>
       <p>Here we have preselected 'Canada' by setting <code>syncedVal: 'Canada'</code> on the parent component. The buttons below demonstrate how you can set the <code>value</code> from the parent.</p>
 
-      <p>Current value: <v-code>{{ syncedVal | json }}</v-code></p>
+      <p>Current value: <v-code>{{ syncedVal }}</v-code></p>
     </div>
 
     <div class="col-md-6">
@@ -73,7 +73,7 @@
         <pre><v-code lang="markup">&#x3C;v-select :value.sync=&#x22;syncedVal&#x22; :options=&#x22;countries&#x22;&#x3E;&#x3C;/v-select&#x3E;</v-code></pre>
       </div>
       <div class="form-group">
-      <v-select :options="simple" :value.sync="syncedVal"></v-select>
+      <v-select :options="simple" v-model="syncedVal"></v-select>
       </div>
 
       <div class="form-group">
@@ -100,10 +100,10 @@
   </article>
 
   <article class="doc-row" id="ex-vuex">
-    <h3 class="page-header">On-Change Callback <small>Vuex Compatibility</small></h3>
+    <h3 class="page-header">Change Event <small>Vuex Compatibility</small></h3>
     <div class="row">
     <div class="col-md-6">
-      <p>vue-select provides an <code>onChange</code> property that accepts a callback function. This function is passed the currently selected value(s) as it's only parameter.</p>
+      <p>vue-select provides an <code>change</code> event. This function is passed the currently selected value(s) as it's only parameter.</p>
       <p>This is very useful when integrating with Vuex, as it will allow your to trigger an action to update your vuex state object. Choose a callback and see it in action.</p>
 
       <div class="form-inline">
@@ -122,7 +122,7 @@
     </div>
 
     <div class="col-md-6">
-      <pre><v-code lang="markup">&#x3C;v-select :on-change=&#x22;consoleCallback&#x22; :options=&#x22;countries&#x22;&#x3E;&#x3C;/v-select&#x3E;</v-code></pre>
+      <pre><v-code lang="markup">&#x3C;v-select v-on:change=&#x22;consoleCallback&#x22; :options=&#x22;countries&#x22;&#x3E;&#x3C;/v-select&#x3E;</v-code></pre>
       <pre><v-code lang="javascript">methods: {
   consoleCallback(val) {
     console.dir(JSON.stringify(val))
@@ -137,7 +137,7 @@
   </div>
   </article>
 
-  <ajax></ajax>
+  <!-- <ajax></ajax> -->
 </section>
 </template>
 
@@ -157,6 +157,7 @@
 
   export default {
     components: {vSelect,vCode,InstallSnippet,Ajax},
+    // components: {vSelect,vCode,InstallSnippet},
     data () {
       return {
         countries,
