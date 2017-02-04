@@ -131,6 +131,14 @@ describe('Select.vue', () => {
 			}).$mount()
 			vm.$children[0].select('foo')
 			expect(vm.$children[0].mutableValue.length).toEqual(1)
+		}),
+
+		it('can deselect an option when multiple is false', () => {
+			const vm = new Vue({
+				template: `<div><v-select :value="'foo'"></v-select></div>`,
+			}).$mount()
+			vm.$children[0].deselect('foo')
+			expect(vm.$children[0].mutableValue).toEqual(null)
 		})
 
 		it('can determine if the value prop is empty', () => {
@@ -232,7 +240,14 @@ describe('Select.vue', () => {
 				expect(vm.value).toEqual('bar')
 				done()
 			})
-		})
+		}),
+
+		it('can check if a string value is selected when the value is an object and multiple is true', () => {
+			const vm = new Vue({
+				template: `<div><v-select multiple :value="[{label: 'foo', value: 'bar'}]"></v-select></div>`,
+			}).$mount()
+			expect(vm.$children[0].isOptionSelected('foo')).toEqual(true)
+		}),
 
 		describe('change Event', () => {
 			it('will trigger the input event when the selection changes', (done) => {
@@ -349,6 +364,31 @@ describe('Select.vue', () => {
 			vm.$children[0].open = true
 			triggerFocusEvent(vm.$children[0].$refs.toggle, 'blur')
 			expect(vm.$children[0].open).toEqual(true)
+		})
+
+		it('will close the dropdown and emit the search:blur event from onSearchBlur', () => {
+			const vm = new Vue({
+				template: '<div><v-select></v-select></div>',
+			}).$mount()
+
+			spyOn(vm.$children[0], '$emit')
+			vm.$children[0].open = true
+			vm.$children[0].onSearchBlur()
+
+			expect(vm.$children[0].open).toEqual(false)
+			expect(vm.$children[0].$emit).toHaveBeenCalledWith('search:blur')
+		})
+
+		it('will open the dropdown and emit the search:focus event from onSearchFocus', () => {
+			const vm = new Vue({
+				template: '<div><v-select></v-select></div>',
+			}).$mount()
+
+			spyOn(vm.$children[0], '$emit')
+			vm.$children[0].onSearchFocus()
+
+			expect(vm.$children[0].open).toEqual(true)
+			expect(vm.$children[0].$emit).toHaveBeenCalledWith('search:focus')
 		})
 
 		it('will close the dropdown on escape, if search is empty', (done) => {

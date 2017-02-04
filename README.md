@@ -5,7 +5,6 @@
 #### Features
 - AJAX Support
 - Tagging
-- No JS Dependenciesp
 - List Filtering/Searching
 - Supports Vuex
 - Select Single/Multiple Options
