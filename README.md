@@ -48,7 +48,7 @@ export default {
 </script>
 ```
 
-#### Browser Globals `v1.3.0+`
+#### CDN/Browser Globals
 
 Just include `vue` & `vue-select.js` - I recommend using [unpkg](https://unpkg.com/#/).
 
