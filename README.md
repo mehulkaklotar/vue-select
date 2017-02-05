@@ -14,7 +14,7 @@
 
 ## Documentation
 - **[Demo & Docs](http://sagalbot.github.io/vue-select/)**
-- **[Example on JSBin](http://jsbin.com/saxaru/5/edit?html,js,output)**
+- **[Example on JSBin](http://jsbin.com/saxaru/8/edit?html,js,output)**
 
 ## Install
 
