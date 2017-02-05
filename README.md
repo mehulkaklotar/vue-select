@@ -16,7 +16,7 @@
 - **[Demo & Docs](http://sagalbot.github.io/vue-select/)**
 - **[Example on JSBin](http://jsbin.com/saxaru/5/edit?html,js,output)**
 
-## Install & Basic Usage
+## Install
 
 ###### Vue Compatibility
 -  `vue ~2.0` use `vue-select ~2.0`
@@ -68,5 +68,36 @@ You may now use the component in your markup
 ```
 
 Here's an [example on JSBin](http://jsbin.com/saxaru/5/edit?html,js,output).
+
+## Basic Usage
+
+#### Syncing a Selected Value
+
+The most common use case for `vue-select` is to have the chosen value synced with a parent component. `vue-select` takes advantage of the `v-model` syntax to sync values with a parent.
+
+```html
+<v-select v-model="selected"></v-select>
+```
+```js
+new Vue({
+  data: {
+    selected: null
+  }
+})
+```
+
+#### Setting Options
+
+`vue-select` accepts arrays of strings and objects to use as options through the `options` prop.
+
+```html
+<v-select :options="['foo','bar']"></v-select>
+```
+
+When provided an array of objects, `vue-select` will display a single value of the object. By default, `vue-select` will look for a key named 'label' on the object to use as display text.
+
+```html
+<v-select :options="[{label: 'foo', value: 'Foo'}]"></v-select>
+```
 
 ### For more information, please visit the [vue-select documentation.](https://sagalbot.github.io/vue-select)
