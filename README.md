@@ -18,11 +18,11 @@
 
 ## Install & Basic Usage
 
-#### Vue Compatibility
+###### Vue Compatibility
 -  `vue ~2.0` use `vue-select ~2.0`
 -  `vue ~1.0` use `vue-select ~1.0`
 
-## NPM
+#### NPM
 Install the package. _You should install `vue-select@1.3.3` for use with vue `~1.0`._
 
 ```bash
@@ -43,7 +43,7 @@ You may now use the component in your markup
 <v-select v-model="selected" :options="['foo','bar']"></v-select>
 ```
 
-## CDN
+#### CDN
 
 Just include `vue` & `vue-select.js` - I recommend using [unpkg](https://unpkg.com/#/).
 
