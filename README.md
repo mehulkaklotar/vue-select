@@ -10,6 +10,7 @@
 - Select Single/Multiple Options
 - Bootstrap Friendly Markup
 - +95% Test Coverage
+- ~32kb minified
 
 ## Documentation
 - **[Demo & Docs](http://sagalbot.github.io/vue-select/)**
@@ -18,52 +19,54 @@
 ## Install & Basic Usage
 
 #### Vue Compatibility
-- `vue-select ~2.0` is compatible with `vue ~2.0`
-- `vue-select ~1.0` is compatible with `vue ~1.0`
+-  `vue ~2.0` use `vue-select ~2.0`
+-  `vue ~1.0` use `vue-select ~1.0`
 
-#### NPM
+## NPM
+Install the package. _You should install `vue-select@1.3.3` for use with vue `~1.0`._
 
 ```bash
 $ npm install vue-select
 ```
 
-```html
-<template>
-   <div>
-      <v-select v-model="select" :options="options"></v-select>
-   </div>
-</template>
+Register the component
 
-<script>
+```js
+import Vue from 'vue'
 import vSelect from 'vue-select'
-export default {
-  components: {vSelect},
-  data() {
-     return {
-        selected: null,
-        options: ['foo','bar','baz']
-     }
-  }
-}
-</script>
+Vue.component(vSelect)
 ```
 
-#### CDN/Browser Globals
+You may now use the component in your markup
+
+```html
+<v-select v-model="selected" :options="['foo','bar']"></v-select>
+```
+
+## CDN
 
 Just include `vue` & `vue-select.js` - I recommend using [unpkg](https://unpkg.com/#/).
 
 ```html
+<script scr="https://unpkg.com/vue@latest"></script>
 <!-- use the latest release -->
 <script src="https://unpkg.com/vue-select@latest"></script>
 <!-- or point to a specific release -->
 <script src="https://unpkg.com/vue-select@1.3.3"></script>
 ```
+
 Then register the component in your javascript:
 
 ```js
 Vue.component('v-select', VueSelect.VueSelect);
 ```
 
-From there you can use as normal. Here's an [example on JSBin](http://jsbin.com/saxaru/5/edit?html,js,output).
+You may now use the component in your markup
+
+```html
+<v-select v-model="selected" :options="['foo','bar']"></v-select>
+```
+
+Here's an [example on JSBin](http://jsbin.com/saxaru/5/edit?html,js,output).
 
 ### For more information, please visit the [vue-select documentation.](https://sagalbot.github.io/vue-select)
