@@ -17,7 +17,7 @@
 
 ## Install & Basic Usage
 
-#### Vue Compatability
+#### Vue Compatibility
 - `vue-select ~2.0` is compatible with `vue ~2.0`
 - `vue-select ~1.0` is compatible with `vue ~1.0`
 
