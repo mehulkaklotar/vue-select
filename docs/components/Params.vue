@@ -88,7 +88,20 @@
      * @type {Function}
      * @default {null}
      */
-    onChange: Function
+     onChange: {
+       type: Function,
+       default: function (val) {
+         this.$emit('input', val)
+       }
+     },
+
+    /**
+     * Sets the id of the input element.
+     * @type {String}
+     * @default {null}
+     */
+    inputId: {
+      type: String
     }
 
   }

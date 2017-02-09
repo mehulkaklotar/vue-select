@@ -413,6 +413,7 @@
       /**
        * Sets the id of the input element.
        * @type {String}
+       * @default {null}
        */
       inputId: {
         type: String
