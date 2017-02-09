@@ -198,6 +198,7 @@
               :placeholder="searchPlaceholder"
               :readonly="!searchable"
               :style="{ width: isValueEmpty ? '100%' : 'auto' }"
+              :id="inputId"
       >
 
       <i v-if="!noDrop" ref="openIndicator" role="presentation" class="open-indicator"></i>
@@ -407,6 +408,14 @@
       noDrop: {
         type: Boolean,
         default: false
+      },
+
+      /**
+       * Sets the id of the input element.
+       * @type {String}
+       */
+      inputId: {
+        type: String
       }
     },
 
