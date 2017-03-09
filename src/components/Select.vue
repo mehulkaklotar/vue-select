@@ -22,8 +22,6 @@
 
   }
 
-
-
   .dropdown-menu > li > a {
 
   }
@@ -163,6 +161,7 @@
     float: left;
     line-height: 1.7em;
   }
+
   .v-select .selected-tag .close {
     float: none;
     margin-right: 0;
@@ -176,6 +175,7 @@
   .v-select input[type="search"]::-webkit-search-results-decoration {
     display: none;
   }
+
   .v-select input[type=search],
   .v-select input[type=search]:focus {
     appearance: none;
@@ -197,6 +197,7 @@
     float: left;
     clear: none;
   }
+
   .v-select.unsearchable input[type=search] {
     max-width: 1px;
   }
@@ -230,7 +231,6 @@
     color: #fff;
   }
 
-
   .v-select .spinner {
     opacity: 0;
     position: absolute;
@@ -263,9 +263,11 @@
   .v-select.open .open-indicator {
     bottom: 1px;
   }
+
   .v-select.open .open-indicator:before {
     transform: rotate(315deg);
   }
+
   .v-select.open .dropdown-toggle {
     border-bottom: none;
     border-bottom-left-radius: 0;
@@ -293,7 +295,7 @@
 
 <template>
   <div class="dropdown v-select" :class="dropdownClasses">
-    <div ref="toggle" @mousedown.prevent="toggleDropdown" class="dropdown-toggle clearfix" type="button">
+    <div ref="toggle" @mousedown.prevent="toggleDropdown" class="dropdown-toggle" type="button">
 
         <span class="selected-tag" v-for="option in valueAsArray" v-bind:key="option.index">
           {{ getOptionLabel(option) }}
@@ -344,7 +346,6 @@
     </ul>
   </div>
 </template>
-
 
 <script type="text/babel">
   import pointerScroll from '../mixins/pointerScroll'
@@ -801,6 +802,7 @@
         return {
           open: this.dropdownOpen,
           searchable: this.searchable,
+          unsearchable: !this.searchable,
           loading: this.mutableLoading
         }
       },
