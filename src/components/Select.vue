@@ -146,15 +146,17 @@
     opacity: .2;
   }
   /* Search Input */
+  .v-select input[type="search"]::-ms-clear,
   .v-select input[type="search"]::-webkit-search-decoration,
   .v-select input[type="search"]::-webkit-search-cancel-button,
   .v-select input[type="search"]::-webkit-search-results-button,
   .v-select input[type="search"]::-webkit-search-results-decoration {
     display: none;
   }
-  .v-select input[type=search],
-  .v-select input[type=search]:focus {
+  .v-select input[type="search"],
+  .v-select input[type="search"]:focus {
     appearance: none;
+    -webkit-appearance: none;
     line-height: 1.42857143;
     /*color: #555;*/
     border-radius: 4px;
@@ -174,7 +176,7 @@
     clear: none;
   }
   /* Search Input States */
-  .v-select.unsearchable input[type=search] {
+  .v-select.unsearchable input[type="search"] {
     max-width: 1px;
   }
   /* List Items */
@@ -254,12 +256,12 @@
   <div class="dropdown v-select" :class="dropdownClasses">
     <div ref="toggle" @mousedown.prevent="toggleDropdown" class="dropdown-toggle" type="button">
 
-        <span class="selected-tag" v-for="option in valueAsArray" v-bind:key="option.index">
-          {{ getOptionLabel(option) }}
-          <button v-if="multiple" @click="deselect(option)" type="button" class="close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </span>
+      <span class="selected-tag" v-for="option in valueAsArray" v-bind:key="option.index">
+        {{ getOptionLabel(option) }}
+        <button v-if="multiple" @click="deselect(option)" type="button" class="close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </span>
 
       <input
               ref="search"
@@ -282,7 +284,7 @@
       <i v-if="!noDrop" ref="openIndicator" role="presentation" class="open-indicator"></i>
 
       <slot name="spinner">
-				<div class="spinner" v-show="mutableLoading">Loading...</div>
+        <div class="spinner" v-show="mutableLoading">Loading...</div>
       </slot>
     </div>
 
