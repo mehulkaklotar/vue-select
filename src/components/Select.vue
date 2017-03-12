@@ -2,7 +2,14 @@
   .v-select {
     position: relative;
   }
-
+  .v-select,
+  .v-select * {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    font-family: sans-serif;
+  }
+  /* Open Indicator */
   .v-select .open-indicator {
     position: absolute;
     bottom: 6px;
@@ -14,16 +21,12 @@
     transition-timing-function: cubic-bezier(1.000, -0.115, 0.975, 0.855);
     opacity: 1;
     transition: opacity .1s;
+    height: 20px; width: 10px;
   }
-
-  .v-select.loading .open-indicator {
-    opacity: 0;
-  }
-
   .v-select .open-indicator:before {
     border-color: rgba(60, 60, 60, .5);
     border-style: solid;
-    border-width: 0.25em 0.25em 0 0;
+    border-width: 3px 3px 0 0;
     content: '';
     display: inline-block;
     height: 10px;
@@ -32,16 +35,24 @@
     transform: rotate(133deg);
     transition: all 150ms cubic-bezier(1.000, -0.115, 0.975, 0.855);
     transition-timing-function: cubic-bezier(1.000, -0.115, 0.975, 0.855);
+    box-sizing: inherit;
   }
-
-  .v-select.open .open-indicator {
-    bottom: 1px;
-  }
-
+  /* Open Indicator States */
   .v-select.open .open-indicator:before {
     transform: rotate(315deg);
   }
-
+  .v-select.loading .open-indicator {
+    opacity: 0;
+  }
+  .v-select.open .open-indicator {
+    bottom: 1px;
+  }
+  /* Dropdown Toggle */
+  .v-select .dropdown-toggle {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+  }
   .v-select .dropdown-toggle {
     display: block;
     padding: 0;
@@ -50,26 +61,63 @@
     border-radius: 4px;
     white-space: normal;
   }
-
+  .v-select .dropdown-toggle:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
+  }
+  /* Dropdown Toggle States */
   .v-select.searchable .dropdown-toggle {
     cursor: text;
   }
-
+  .v-select.unsearchable .dropdown-toggle {
+    cursor: pointer;
+  }
   .v-select.open .dropdown-toggle {
-    border-bottom: none;
+    border-bottom-color: transparent;
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
   }
-
-  .v-select > .dropdown-menu {
+  /* Dropdown Menu */
+  .v-select .dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+    /*float: left;*/
+    min-width: 160px;
+    padding: 5px 0;
     margin: 0;
     width: 100%;
     overflow-y: scroll;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0, 0, 0, .15);
     border-top: none;
+    border-radius: 4px;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
+    /*font-size: 14px;*/
+    text-align: left;
+    list-style: none;
+    background-color: #fff;
+    background-clip: padding-box;
+    -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
   }
-
+  .v-select .dropdown-menu .divider {
+    height: 1px;
+    margin: 7px 0;
+    overflow: hidden;
+    background-color: #e5e5e5;
+  }
+  .v-select .no-options {
+    text-align: center;
+    padding-bottom: 2px;
+  }
+  /* Selected Tags */
   .v-select .selected-tag {
     color: #333;
     background-color: #f0f0f0;
@@ -79,17 +127,39 @@
     margin: 4px 1px 0px 3px;
     padding: 0 0.25em;
     float: left;
-    line-height: 1.7em;
+    line-height: 24px;
   }
-
   .v-select .selected-tag .close {
     float: none;
     margin-right: 0;
     font-size: 20px;
+    appearance: none;
+    padding: 0;
+    cursor: pointer;
+    background: 0 0;
+    border: 0;
+    font-weight: 700;
+    line-height: 1;
+    color: #000;
+    text-shadow: 0 1px 0 #fff;
+    filter: alpha(opacity=20);
+    opacity: .2;
   }
-
+  /* Search Input */
+  .v-select input[type="search"]::-webkit-search-decoration,
+  .v-select input[type="search"]::-webkit-search-cancel-button,
+  .v-select input[type="search"]::-webkit-search-results-button,
+  .v-select input[type="search"]::-webkit-search-results-decoration {
+    display: none;
+  }
   .v-select input[type=search],
   .v-select input[type=search]:focus {
+    appearance: none;
+    line-height: 1.42857143;
+    /*color: #555;*/
+    border-radius: 4px;
+    height: 34px;
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
     display: inline-block;
     border: none;
     outline: none;
@@ -103,27 +173,38 @@
     float: left;
     clear: none;
   }
-
-  .v-select input[type=search]:disabled {
+  /* Search Input States */
+  .v-select.unsearchable input[type=search] {
+    max-width: 1px;
+  }
+  /* List Items */
+  .v-select li > a {
+    display: block;
+    padding: 3px 20px;
+    clear: both;
+    line-height: 1.42857143; /* Normalize line height */
+    color: #333; /* Overrides most CSS frameworks */
+    white-space: nowrap;
+  }
+  .v-select li:hover {
     cursor: pointer;
   }
-
-  .v-select li a {
-    cursor: pointer;
-  }
-
-  .v-select .active a {
-    background: rgba(50, 50, 50, .1);
+  .v-select .dropdown-menu .active > a {
     color: #333;
+    background: rgba(50, 50, 50, .1);
   }
-
-  .v-select .highlight a,
-  .v-select li:hover > a,
-  .v-select .active > a:hover {
+  .v-select .dropdown-menu > .highlight > a {
+    /*
+     * required to override bootstrap 3's
+     * .dropdown-menu > li > a:hover {} styles
+     */
     background: #5897fb;
     color: #fff;
   }
-
+  .v-select .highlight:not(:last-child) {
+    margin-bottom: 0; /* Fixes Bulma Margin */
+  }
+  /* Loading Spinner */
   .v-select .spinner {
     opacity: 0;
     position: absolute;
@@ -140,18 +221,17 @@
     animation: vSelectSpinner 1.1s infinite linear;
     transition: opacity .1s;
   }
-
-  .v-select.loading .spinner {
-    opacity: 1;
-  }
-
   .v-select .spinner,
   .v-select .spinner:after {
     border-radius: 50%;
     width: 5em;
     height: 5em;
   }
-
+  /* Loading Spinner States */
+  .v-select.loading .spinner {
+    opacity: 1;
+  }
+  /* KeyFrames */
   @-webkit-keyframes vSelectSpinner {
     0% {
       transform: rotate(0deg);
@@ -160,7 +240,6 @@
       transform: rotate(360deg);
     }
   }
-
   @keyframes vSelectSpinner {
     0% {
       transform: rotate(0deg);
@@ -173,7 +252,7 @@
 
 <template>
   <div class="dropdown v-select" :class="dropdownClasses">
-    <div ref="toggle" @mousedown.prevent="toggleDropdown" class="dropdown-toggle clearfix" type="button">
+    <div ref="toggle" @mousedown.prevent="toggleDropdown" class="dropdown-toggle" type="button">
 
         <span class="selected-tag" v-for="option in valueAsArray" v-bind:key="option.index">
           {{ getOptionLabel(option) }}
@@ -217,14 +296,13 @@
         <li v-if="!filteredOptions.length" class="divider"></li>
       </transition>
       <transition name="fade">
-        <li v-if="!filteredOptions.length" class="text-center">
+        <li v-if="!filteredOptions.length" class="no-options">
           <slot name="no-options">Sorry, no matching options.</slot>
         </li>
       </transition>
     </ul>
   </div>
 </template>
-
 
 <script type="text/babel">
   import pointerScroll from '../mixins/pointerScroll'
@@ -681,6 +759,7 @@
         return {
           open: this.dropdownOpen,
           searchable: this.searchable,
+          unsearchable: !this.searchable,
           loading: this.mutableLoading
         }
       },
