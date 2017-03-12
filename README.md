@@ -8,9 +8,10 @@
 - List Filtering/Searching
 - Supports Vuex
 - Select Single/Multiple Options
-- Bootstrap Friendly Markup
+- Tested with Bootstrap 3/4, Bulma, Foundation
 - +95% Test Coverage
-- ~32kb minified
+- ~33kb minified with CSS
+- Zero dependencies
 
 ## Documentation
 - **[Demo & Docs](http://sagalbot.github.io/vue-select/)**
