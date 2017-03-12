@@ -1,4 +1,7 @@
 <style>
+  .v-select {
+    position: relative;
+  }
   .v-select,
   .v-select * {
     -webkit-box-sizing: border-box;
@@ -6,52 +9,7 @@
     box-sizing: border-box;
     font-family: sans-serif;
   }
-
-  .v-select ::after,
-  .v-select ::before {
-    -webkit-box-sizing: inherit;
-    box-sizing: inherit;
-  }
-
-  .v-select a:not([href]):not([tabindex]):focus,
-  .v-select a:not([href]):not([tabindex]):hover {
-    color: #fff;
-  }
-
-  .v-select input[type="search"] {
-
-  }
-
-  .dropdown-menu > li > a {
-
-  }
-
-  button.close {
-    appearance: none;
-    padding: 0;
-    cursor: pointer;
-    background: 0 0;
-    border: 0;
-    font-weight: 700;
-    line-height: 1;
-    color: #000;
-    text-shadow: 0 1px 0 #fff;
-    filter: alpha(opacity=20);
-    opacity: .2;
-  }
-
-  .v-select .dropdown-toggle {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-  }
-
-  /* - - - - - - - - - - - - - - - - */
-
-  .v-select {
-    position: relative;
-  }
-
+  /* Open Indicator */
   .v-select .open-indicator {
     position: absolute;
     bottom: 6px;
@@ -63,12 +21,8 @@
     transition-timing-function: cubic-bezier(1.000, -0.115, 0.975, 0.855);
     opacity: 1;
     transition: opacity .1s;
+    height: 20px; width: 10px;
   }
-
-  .v-select.loading .open-indicator {
-    opacity: 0;
-  }
-
   .v-select .open-indicator:before {
     border-color: rgba(60, 60, 60, .5);
     border-style: solid;
@@ -81,8 +35,24 @@
     transform: rotate(133deg);
     transition: all 150ms cubic-bezier(1.000, -0.115, 0.975, 0.855);
     transition-timing-function: cubic-bezier(1.000, -0.115, 0.975, 0.855);
+    box-sizing: inherit;
   }
-
+  /* Open Indicator States */
+  .v-select.open .open-indicator:before {
+    transform: rotate(315deg);
+  }
+  .v-select.loading .open-indicator {
+    opacity: 0;
+  }
+  .v-select.open .open-indicator {
+    bottom: 1px;
+  }
+  /* Dropdown Toggle */
+  .v-select .dropdown-toggle {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+  }
   .v-select .dropdown-toggle {
     display: block;
     padding: 0;
@@ -91,7 +61,6 @@
     border-radius: 4px;
     white-space: normal;
   }
-
   .v-select .dropdown-toggle:after {
     visibility: hidden;
     display: block;
@@ -100,16 +69,20 @@
     clear: both;
     height: 0;
   }
-
+  /* Dropdown Toggle States */
   .v-select.searchable .dropdown-toggle {
     cursor: text;
   }
-
   .v-select.unsearchable .dropdown-toggle {
     cursor: pointer;
   }
-
-  .v-select > .dropdown-menu {
+  .v-select.open .dropdown-toggle {
+    border-bottom-color: transparent;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+  /* Dropdown Menu */
+  .v-select .dropdown-menu {
     position: absolute;
     top: 100%;
     left: 0;
@@ -134,22 +107,17 @@
     -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
     box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
   }
-
-  /*divider*/
-  /*.v-select > .dropdown-menu*/
-  .dropdown-menu .divider {
+  .v-select .dropdown-menu .divider {
     height: 1px;
-    margin: 9px 0;
+    margin: 7px 0;
     overflow: hidden;
     background-color: #e5e5e5;
   }
-
-  .v-select .text-center {
+  .v-select .no-options {
     text-align: center;
+    padding-bottom: 2px;
   }
-
-  /*text-center*/
-
+  /* Selected Tags */
   .v-select .selected-tag {
     color: #333;
     background-color: #f0f0f0;
@@ -159,23 +127,31 @@
     margin: 4px 1px 0px 3px;
     padding: 0 0.25em;
     float: left;
-    line-height: 1.7em;
+    line-height: 24px;
   }
-
   .v-select .selected-tag .close {
     float: none;
     margin-right: 0;
     font-size: 20px;
+    appearance: none;
+    padding: 0;
+    cursor: pointer;
+    background: 0 0;
+    border: 0;
+    font-weight: 700;
+    line-height: 1;
+    color: #000;
+    text-shadow: 0 1px 0 #fff;
+    filter: alpha(opacity=20);
+    opacity: .2;
   }
-
-  /* -- Search Input -- */
+  /* Search Input */
   .v-select input[type="search"]::-webkit-search-decoration,
   .v-select input[type="search"]::-webkit-search-cancel-button,
   .v-select input[type="search"]::-webkit-search-results-button,
   .v-select input[type="search"]::-webkit-search-results-decoration {
     display: none;
   }
-
   .v-select input[type=search],
   .v-select input[type=search]:focus {
     appearance: none;
@@ -197,40 +173,38 @@
     float: left;
     clear: none;
   }
-
+  /* Search Input States */
   .v-select.unsearchable input[type=search] {
     max-width: 1px;
   }
-
+  /* List Items */
   .v-select li > a {
     display: block;
     padding: 3px 20px;
     clear: both;
-    font-weight: 400;
-    line-height: 1.42857143;
-    color: #333;
+    line-height: 1.42857143; /* Normalize line height */
+    color: #333; /* Overrides most CSS frameworks */
     white-space: nowrap;
   }
-
   .v-select li:hover {
     cursor: pointer;
   }
-
-  .v-select .active > a {
+  .v-select .dropdown-menu .active > a {
+    color: #333;
     background: rgba(50, 50, 50, .1);
-    /*color: #333;*/
   }
-
-  .v-select .highlight > a {
+  .v-select .dropdown-menu > .highlight > a {
+    /*
+     * required to override bootstrap 3's
+     * .dropdown-menu > li > a:hover {} styles
+     */
     background: #5897fb;
     color: #fff;
   }
-
-  .v-select .highlight > a {
-    background: #5897fb;
-    color: #fff;
+  .v-select .highlight:not(:last-child) {
+    margin-bottom: 0; /* Fixes Bulma Margin */
   }
-
+  /* Loading Spinner */
   .v-select .spinner {
     opacity: 0;
     position: absolute;
@@ -247,33 +221,17 @@
     animation: vSelectSpinner 1.1s infinite linear;
     transition: opacity .1s;
   }
-
-  .v-select.loading .spinner {
-    opacity: 1;
-  }
-
   .v-select .spinner,
   .v-select .spinner:after {
     border-radius: 50%;
     width: 5em;
     height: 5em;
   }
-
-  /* -- Open State -- */
-  .v-select.open .open-indicator {
-    bottom: 1px;
+  /* Loading Spinner States */
+  .v-select.loading .spinner {
+    opacity: 1;
   }
-
-  .v-select.open .open-indicator:before {
-    transform: rotate(315deg);
-  }
-
-  .v-select.open .dropdown-toggle {
-    border-bottom: none;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-  }
-
+  /* KeyFrames */
   @-webkit-keyframes vSelectSpinner {
     0% {
       transform: rotate(0deg);
@@ -282,7 +240,6 @@
       transform: rotate(360deg);
     }
   }
-
   @keyframes vSelectSpinner {
     0% {
       transform: rotate(0deg);
@@ -339,7 +296,7 @@
         <li v-if="!filteredOptions.length" class="divider"></li>
       </transition>
       <transition name="fade">
-        <li v-if="!filteredOptions.length" class="text-center">
+        <li v-if="!filteredOptions.length" class="no-options">
           <slot name="no-options">Sorry, no matching options.</slot>
         </li>
       </transition>
