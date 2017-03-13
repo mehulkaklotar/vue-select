@@ -1,13 +1,13 @@
 <style>
   .v-select {
     position: relative;
+    font-family: sans-serif;
   }
   .v-select,
   .v-select * {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
-    font-family: sans-serif;
   }
   /* Open Indicator */
   .v-select .open-indicator {
@@ -76,6 +76,7 @@
     cursor: pointer;
   }
   .v-select.open .dropdown-toggle {
+    border-bottom-color: transparent;
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
   }
@@ -91,10 +92,12 @@
     width: 100%;
     overflow-y: scroll;
     border: 1px solid rgba(0, 0, 0, .26);
+    box-shadow: 0px 3px 6px 0px rgba(0,0,0,.15);
     border-top: none;
     border-radius: 0 0 4px 4px;
     text-align: left;
     list-style: none;
+    background: #fff;
   }
   .v-select .no-options {
     text-align: center;
