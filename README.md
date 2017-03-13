@@ -35,7 +35,7 @@ Register the component
 ```js
 import Vue from 'vue'
 import vSelect from 'vue-select'
-Vue.component(vSelect)
+Vue.component('v-select', vSelect)
 ```
 
 You may now use the component in your markup
