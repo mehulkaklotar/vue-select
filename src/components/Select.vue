@@ -52,14 +52,13 @@
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-  }
-  .v-select .dropdown-toggle {
     display: block;
     padding: 0;
     background: none;
     border: 1px solid rgba(60, 60, 60, .26);
     border-radius: 4px;
     white-space: normal;
+    transition: border-radius .25s;
   }
   .v-select .dropdown-toggle:after {
     visibility: hidden;
@@ -77,7 +76,6 @@
     cursor: pointer;
   }
   .v-select.open .dropdown-toggle {
-    border-bottom-color: transparent;
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
   }
@@ -87,35 +85,19 @@
     top: 100%;
     left: 0;
     z-index: 1000;
-    /*float: left;*/
     min-width: 160px;
     padding: 5px 0;
     margin: 0;
     width: 100%;
     overflow-y: scroll;
-    border: 1px solid #ccc;
-    border: 1px solid rgba(0, 0, 0, .15);
+    border: 1px solid rgba(0, 0, 0, .26);
     border-top: none;
-    border-radius: 4px;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-    /*font-size: 14px;*/
+    border-radius: 0 0 4px 4px;
     text-align: left;
     list-style: none;
-    background-color: #fff;
-    background-clip: padding-box;
-    -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
-  }
-  .v-select .dropdown-menu .divider {
-    height: 1px;
-    margin: 7px 0;
-    overflow: hidden;
-    background-color: #e5e5e5;
   }
   .v-select .no-options {
     text-align: center;
-    padding-bottom: 2px;
   }
   /* Selected Tags */
   .v-select .selected-tag {
@@ -125,7 +107,7 @@
     border-radius: 4px;
     height: 26px;
     margin: 4px 1px 0px 3px;
-    padding: 0 0.25em;
+    padding: 1px 0.25em;
     float: left;
     line-height: 24px;
   }
@@ -146,22 +128,23 @@
     opacity: .2;
   }
   /* Search Input */
-  .v-select input[type="search"]::-ms-clear,
   .v-select input[type="search"]::-webkit-search-decoration,
   .v-select input[type="search"]::-webkit-search-cancel-button,
   .v-select input[type="search"]::-webkit-search-results-button,
   .v-select input[type="search"]::-webkit-search-results-decoration {
     display: none;
   }
+  .v-select input[type="search"]::-ms-clear {
+    display: none;
+  }
   .v-select input[type="search"],
   .v-select input[type="search"]:focus {
     appearance: none;
     -webkit-appearance: none;
+    -moz-appearance: none;
     line-height: 1.42857143;
-    /*color: #555;*/
-    border-radius: 4px;
+    font-size:1em;
     height: 34px;
-    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
     display: inline-block;
     border: none;
     outline: none;
@@ -180,11 +163,13 @@
     max-width: 1px;
   }
   /* List Items */
+  .v-select li {
+    line-height: 1.42857143; /* Normalize line height */
+  }
   .v-select li > a {
     display: block;
     padding: 3px 20px;
     clear: both;
-    line-height: 1.42857143; /* Normalize line height */
     color: #333; /* Overrides most CSS frameworks */
     white-space: nowrap;
   }
@@ -250,11 +235,20 @@
       transform: rotate(360deg);
     }
   }
+  /* Dropdown Default Transition */
+  .fade-enter-active,
+  .fade-leave-active {
+    transition: opacity .15s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+  }
+  .fade-enter,
+  .fade-leave-to {
+    opacity: 0;
+  }
 </style>
 
 <template>
   <div class="dropdown v-select" :class="dropdownClasses">
-    <div ref="toggle" @mousedown.prevent="toggleDropdown" class="dropdown-toggle" type="button">
+    <div ref="toggle" @mousedown.prevent="toggleDropdown" class="dropdown-toggle">
 
       <span class="selected-tag" v-for="option in valueAsArray" v-bind:key="option.index">
         {{ getOptionLabel(option) }}
@@ -265,7 +259,6 @@
 
       <input
               ref="search"
-              :debounce="debounce"
               v-model="search"
               @keydown.delete="maybeDeleteValue"
               @keyup.esc="onEscape"
@@ -288,21 +281,18 @@
       </slot>
     </div>
 
-    <ul ref="dropdownMenu" v-if="dropdownOpen" :transition="transition" class="dropdown-menu" :style="{ 'max-height': maxHeight }">
-      <li v-for="(option, index) in filteredOptions" v-bind:key="index" :class="{ active: isOptionSelected(option), highlight: index === typeAheadPointer }" @mouseover="typeAheadPointer = index">
-        <a @mousedown.prevent="select(option)">
-          {{ getOptionLabel(option) }}
-        </a>
-      </li>
-      <transition name="fade">
-        <li v-if="!filteredOptions.length" class="divider"></li>
-      </transition>
-      <transition name="fade">
+    <transition :name="transition">
+      <ul ref="dropdownMenu" v-if="dropdownOpen" class="dropdown-menu" :style="{ 'max-height': maxHeight }">
+        <li v-for="(option, index) in filteredOptions" v-bind:key="index" :class="{ active: isOptionSelected(option), highlight: index === typeAheadPointer }" @mouseover="typeAheadPointer = index">
+          <a @mousedown.prevent="select(option)">
+            {{ getOptionLabel(option) }}
+          </a>
+        </li>
         <li v-if="!filteredOptions.length" class="no-options">
           <slot name="no-options">Sorry, no matching options.</slot>
         </li>
-      </transition>
-    </ul>
+      </ul>
+    </transition>
   </div>
 </template>
 
@@ -383,7 +373,7 @@
        */
       transition: {
         type: String,
-        default: 'expand'
+        default: 'fade'
       },
 
       /**
