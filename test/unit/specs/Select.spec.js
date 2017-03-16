@@ -931,10 +931,10 @@ describe('Select.vue', () => {
 			}).$mount()
 
 			vm.$refs.select.toggleLoading()
-			expect(vm.$refs.select.showLoading).toEqual(true)
+			expect(vm.$refs.select.mutableLoading).toEqual(true)
 
 			vm.$refs.select.toggleLoading(true)
-			expect(vm.$refs.select.showLoading).toEqual(true)
+			expect(vm.$refs.select.mutableLoading).toEqual(true)
 		})
 
 		it('should trigger the onSearch callback when the search text changes', (done) => {
@@ -980,6 +980,49 @@ describe('Select.vue', () => {
 			})
 		})
 
+    it('should trigger the search event when the search text changes', (done) => {
+      const vm = new Vue({
+        template: '<div><v-select ref="select" @search="foo"></v-select></div>',
+        data: {
+          called: false
+        },
+        methods: {
+          foo(val) {
+            this.called = val
+          }
+        }
+      }).$mount()
+
+      vm.$refs.select.search = 'foo'
+
+      Vue.nextTick(() => {
+        expect(vm.called).toEqual('foo')
+        done()
+      })
+    })
+
+    it('should not trigger the search event if the search text is empty', (done) => {
+      const vm = new Vue({
+        template: '<div><v-select ref="select" search="foo" @search="foo"></v-select></div>',
+        data: { called: false },
+        methods: {
+          foo(val) {
+            this.called = ! this.called
+          }
+        }
+      }).$mount()
+
+      vm.$refs.select.search = 'foo'
+      Vue.nextTick(() => {
+        expect(vm.called).toBe(true)
+        vm.$refs.select.search = ''
+        Vue.nextTick(() => {
+          expect(vm.called).toBe(true)
+          done()
+        })
+      })
+    })
+
 		it('can set loading to false from the onSearch callback', (done) => {
 			const vm = new Vue({
 				template: '<div><v-select loading ref="select" :on-search="foo"></v-select></div>',
@@ -992,7 +1035,7 @@ describe('Select.vue', () => {
 
 			vm.$refs.select.search = 'foo'
 			Vue.nextTick(() => {
-				expect(vm.$refs.select.showLoading).toEqual(false)
+				expect(vm.$refs.select.mutableLoading).toEqual(false)
 				done()
 			})
 		})
@@ -1011,7 +1054,7 @@ describe('Select.vue', () => {
 			select.onSearch(select.search, select.toggleLoading)
 
 			Vue.nextTick(() => {
-				expect(vm.$refs.select.showLoading).toEqual(true)
+				expect(vm.$refs.select.mutableLoading).toEqual(true)
 				done()
 			})
 		})
