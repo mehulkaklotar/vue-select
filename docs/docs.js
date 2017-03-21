@@ -1,10 +1,11 @@
 import 'prismjs'
 import Vue from 'vue'
-import App from './Docs.vue'
+import Docs from './Docs.vue'
 import store from './vuex/store'
 import Resource from 'vue-resource'
 import vSelect from '../src/components/Select.vue'
 import vCode from './components/Code.vue'
+import countries from './data/advanced'
 
 Vue.use(Resource)
 
@@ -23,27 +24,13 @@ import { setSelected, toggleMultiple, setPlaceholder, toggleOptionType } from '.
 
 /* eslint-disable no-new */
 new Vue({
-  el: 'body',
+  el: '#app',
   store,
-  components: { App },
-  vuex: {
-    getters: {
-      placeholder (store) {
-        return store.placeholder
-      },
-      selected (store) {
-        return store.selected
-      },
-      type (store) {
-        return store.optionType
-      },
-      options (store) {
-        return store.options[store.optionType]
-      },
-      multiple (store) {
-        return store.multiple
-      }
-    },
-    actions: { setSelected, toggleMultiple, setPlaceholder, toggleOptionType }
+  components: { Docs },
+  data () {
+    return {
+      options: countries,
+      placeholder: 'Choose a country..',
+    }
   }
 })

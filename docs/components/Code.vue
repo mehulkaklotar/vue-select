@@ -1,5 +1,5 @@
 <template>
-<code :class="class"><slot></slot></code>
+<code :class="cssClass"><slot></slot></code>
 </template>
 
 <script type="text/babel">
@@ -12,7 +12,7 @@
   export default {
     props: ['lang'],
     computed: {
-      class () {
+      cssClass () {
         return `language-${this.lang}`
       }
     }
