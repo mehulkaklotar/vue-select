@@ -317,7 +317,7 @@ describe('Select.vue', () => {
 	describe('Toggling Dropdown', () => {
 		it('should not open the dropdown when the el is clicked but the component is disabled', (done) => {
 			const vm = new Vue({
-				template: '<div><v-select :options="options" :value.sync="value" disabled></v-select></div>',
+				template: '<div><v-select :options="options" :value="value" disabled></v-select></div>',
 				components: {vSelect},
 				data: {
 					value: [{label: 'one'}],
@@ -325,7 +325,7 @@ describe('Select.vue', () => {
 				}
 			}).$mount()
 
-			vm.$children[0].toggleDropdown({target: vm.$children[0].$els.search})
+			vm.$children[0].toggleDropdown({target: vm.$children[0].$refs.search})
 			Vue.nextTick(() => {
 				Vue.nextTick(() => {
 					expect(vm.$children[0].open).toEqual(false)
@@ -698,6 +698,20 @@ describe('Select.vue', () => {
 			expect(vm.$children[0].$refs.toggle.querySelector('.selected-tag').textContent).toContain('Baz')
 		})
 
+		it('will console.warn when options contain objects without a valid label key', (done) => {
+			spyOn(console, 'warn')
+			const vm = new Vue({
+				template: '<div><v-select :options="[{}]"></v-select></div>',
+			}).$mount()
+			Vue.nextTick(() => {
+				expect(console.warn).toHaveBeenCalledWith(
+						'[vue-select warn]: Label key "option.label" does not exist in options object.' +
+						'\nhttp://sagalbot.github.io/vue-select/#ex-labels'
+				)
+				done()
+			})
+		})
+
 		it('should display a placeholder if the value is empty', (done) => {
 			const vm = new Vue({
 				template: '<div><v-select :options="options" placeholder="foo"></v-select></div>',
@@ -936,10 +950,10 @@ describe('Select.vue', () => {
 			}).$mount()
 
 			vm.$refs.select.toggleLoading()
-			expect(vm.$refs.select.showLoading).toEqual(true)
+			expect(vm.$refs.select.mutableLoading).toEqual(true)
 
 			vm.$refs.select.toggleLoading(true)
-			expect(vm.$refs.select.showLoading).toEqual(true)
+			expect(vm.$refs.select.mutableLoading).toEqual(true)
 		})
 
 		it('should trigger the onSearch callback when the search text changes', (done) => {
@@ -985,6 +999,49 @@ describe('Select.vue', () => {
 			})
 		})
 
+    it('should trigger the search event when the search text changes', (done) => {
+      const vm = new Vue({
+        template: '<div><v-select ref="select" @search="foo"></v-select></div>',
+        data: {
+          called: false
+        },
+        methods: {
+          foo(val) {
+            this.called = val
+          }
+        }
+      }).$mount()
+
+      vm.$refs.select.search = 'foo'
+
+      Vue.nextTick(() => {
+        expect(vm.called).toEqual('foo')
+        done()
+      })
+    })
+
+    it('should not trigger the search event if the search text is empty', (done) => {
+      const vm = new Vue({
+        template: '<div><v-select ref="select" search="foo" @search="foo"></v-select></div>',
+        data: { called: false },
+        methods: {
+          foo(val) {
+            this.called = ! this.called
+          }
+        }
+      }).$mount()
+
+      vm.$refs.select.search = 'foo'
+      Vue.nextTick(() => {
+        expect(vm.called).toBe(true)
+        vm.$refs.select.search = ''
+        Vue.nextTick(() => {
+          expect(vm.called).toBe(true)
+          done()
+        })
+      })
+    })
+
 		it('can set loading to false from the onSearch callback', (done) => {
 			const vm = new Vue({
 				template: '<div><v-select loading ref="select" :on-search="foo"></v-select></div>',
@@ -997,7 +1054,7 @@ describe('Select.vue', () => {
 
 			vm.$refs.select.search = 'foo'
 			Vue.nextTick(() => {
-				expect(vm.$refs.select.showLoading).toEqual(false)
+				expect(vm.$refs.select.mutableLoading).toEqual(false)
 				done()
 			})
 		})
@@ -1016,7 +1073,7 @@ describe('Select.vue', () => {
 			select.onSearch(select.search, select.toggleLoading)
 
 			Vue.nextTick(() => {
-				expect(vm.$refs.select.showLoading).toEqual(true)
+				expect(vm.$refs.select.mutableLoading).toEqual(true)
 				done()
 			})
 		})

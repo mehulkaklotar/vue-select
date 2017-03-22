@@ -1,6 +1,7 @@
 <style>
   .v-select {
     position: relative;
+    font-family: sans-serif;
   }
 
   .v-select .disabled {
@@ -8,6 +9,14 @@
     background-color: rgb(248, 248, 248) !important;
   }
 
+  .v-select,
+  .v-select * {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+  }
+
+  /* Open Indicator */
   .v-select .open-indicator {
     position: absolute;
     bottom: 6px;
@@ -19,16 +28,12 @@
     transition-timing-function: cubic-bezier(1.000, -0.115, 0.975, 0.855);
     opacity: 1;
     transition: opacity .1s;
+    height: 20px; width: 10px;
   }
-
-  .v-select.loading .open-indicator {
-    opacity: 0;
-  }
-
   .v-select .open-indicator:before {
     border-color: rgba(60, 60, 60, .5);
     border-style: solid;
-    border-width: 0.25em 0.25em 0 0;
+    border-width: 3px 3px 0 0;
     content: '';
     display: inline-block;
     height: 10px;
@@ -37,44 +42,74 @@
     transform: rotate(133deg);
     transition: all 150ms cubic-bezier(1.000, -0.115, 0.975, 0.855);
     transition-timing-function: cubic-bezier(1.000, -0.115, 0.975, 0.855);
+    box-sizing: inherit;
   }
-
-  .v-select.open .open-indicator {
-    bottom: 1px;
-  }
-
+  /* Open Indicator States */
   .v-select.open .open-indicator:before {
     transform: rotate(315deg);
   }
-
+  .v-select.loading .open-indicator {
+    opacity: 0;
+  }
+  .v-select.open .open-indicator {
+    bottom: 1px;
+  }
+  /* Dropdown Toggle */
   .v-select .dropdown-toggle {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
     display: block;
     padding: 0;
     background: none;
     border: 1px solid rgba(60, 60, 60, .26);
     border-radius: 4px;
     white-space: normal;
+    transition: border-radius .25s;
   }
-
+  .v-select .dropdown-toggle:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
+  }
+  /* Dropdown Toggle States */
   .v-select.searchable .dropdown-toggle {
     cursor: text;
   }
-
+  .v-select.unsearchable .dropdown-toggle {
+    cursor: pointer;
+  }
   .v-select.open .dropdown-toggle {
-    border-bottom: none;
+    border-bottom-color: transparent;
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
   }
-
-  .v-select > .dropdown-menu {
+  /* Dropdown Menu */
+  .v-select .dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+    min-width: 160px;
+    padding: 5px 0;
     margin: 0;
     width: 100%;
     overflow-y: scroll;
+    border: 1px solid rgba(0, 0, 0, .26);
+    box-shadow: 0px 3px 6px 0px rgba(0,0,0,.15);
     border-top: none;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
+    border-radius: 0 0 4px 4px;
+    text-align: left;
+    list-style: none;
+    background: #fff;
   }
-
+  .v-select .no-options {
+    text-align: center;
+  }
+  /* Selected Tags */
   .v-select .selected-tag {
     color: #333;
     background-color: #f0f0f0;
@@ -82,19 +117,44 @@
     border-radius: 4px;
     height: 26px;
     margin: 4px 1px 0px 3px;
-    padding: 0 0.25em;
+    padding: 1px 0.25em;
     float: left;
-    line-height: 1.7em;
+    line-height: 24px;
   }
-
   .v-select .selected-tag .close {
     float: none;
     margin-right: 0;
     font-size: 20px;
+    appearance: none;
+    padding: 0;
+    cursor: pointer;
+    background: 0 0;
+    border: 0;
+    font-weight: 700;
+    line-height: 1;
+    color: #000;
+    text-shadow: 0 1px 0 #fff;
+    filter: alpha(opacity=20);
+    opacity: .2;
   }
-
-  .v-select input[type=search],
-  .v-select input[type=search]:focus {
+  /* Search Input */
+  .v-select input[type="search"]::-webkit-search-decoration,
+  .v-select input[type="search"]::-webkit-search-cancel-button,
+  .v-select input[type="search"]::-webkit-search-results-button,
+  .v-select input[type="search"]::-webkit-search-results-decoration {
+    display: none;
+  }
+  .v-select input[type="search"]::-ms-clear {
+    display: none;
+  }
+  .v-select input[type="search"],
+  .v-select input[type="search"]:focus {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    line-height: 1.42857143;
+    font-size:1em;
+    height: 34px;
     display: inline-block;
     border: none;
     outline: none;
@@ -108,27 +168,40 @@
     float: left;
     clear: none;
   }
-
-  .v-select input[type=search]:disabled {
+  /* Search Input States */
+  .v-select.unsearchable input[type="search"] {
+    max-width: 1px;
+  }
+  /* List Items */
+  .v-select li {
+    line-height: 1.42857143; /* Normalize line height */
+  }
+  .v-select li > a {
+    display: block;
+    padding: 3px 20px;
+    clear: both;
+    color: #333; /* Overrides most CSS frameworks */
+    white-space: nowrap;
+  }
+  .v-select li:hover {
     cursor: pointer;
   }
-
-  .v-select li a {
-    cursor: pointer;
-  }
-
-  .v-select .active a {
-    background: rgba(50, 50, 50, .1);
+  .v-select .dropdown-menu .active > a {
     color: #333;
+    background: rgba(50, 50, 50, .1);
   }
-
-  .v-select .highlight a,
-  .v-select li:hover > a,
-  .v-select .active > a:hover {
+  .v-select .dropdown-menu > .highlight > a {
+    /*
+     * required to override bootstrap 3's
+     * .dropdown-menu > li > a:hover {} styles
+     */
     background: #5897fb;
     color: #fff;
   }
-
+  .v-select .highlight:not(:last-child) {
+    margin-bottom: 0; /* Fixes Bulma Margin */
+  }
+  /* Loading Spinner */
   .v-select .spinner {
     opacity: 0;
     position: absolute;
@@ -145,18 +218,17 @@
     animation: vSelectSpinner 1.1s infinite linear;
     transition: opacity .1s;
   }
-
-  .v-select.loading .spinner {
-    opacity: 1;
-  }
-
   .v-select .spinner,
   .v-select .spinner:after {
     border-radius: 50%;
     width: 5em;
     height: 5em;
   }
-
+  /* Loading Spinner States */
+  .v-select.loading .spinner {
+    opacity: 1;
+  }
+  /* KeyFrames */
   @-webkit-keyframes vSelectSpinner {
     0% {
       transform: rotate(0deg);
@@ -165,7 +237,6 @@
       transform: rotate(360deg);
     }
   }
-
   @keyframes vSelectSpinner {
     0% {
       transform: rotate(0deg);
@@ -174,22 +245,30 @@
       transform: rotate(360deg);
     }
   }
+  /* Dropdown Default Transition */
+  .fade-enter-active,
+  .fade-leave-active {
+    transition: opacity .15s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+  }
+  .fade-enter,
+  .fade-leave-to {
+    opacity: 0;
+  }
 </style>
 
 <template>
   <div class="dropdown v-select" :class="dropdownClasses">
     <div ref="toggle" @mousedown.prevent="toggleDropdown" :class="['dropdown-toggle', 'clearfix', {'disabled': disabled}]" type="button">
 
-        <span class="selected-tag" v-for="option in valueAsArray" v-bind:key="option.index">
-          {{ getOptionLabel(option) }}
-          <button v-if="multiple" @click="deselect(option)" type="button" class="close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </span>
+      <span class="selected-tag" v-for="option in valueAsArray" v-bind:key="option.index">
+        {{ getOptionLabel(option) }}
+        <button v-if="multiple" @click="deselect(option)" type="button" class="close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </span>
 
       <input
               ref="search"
-              :debounce="debounce"
               v-model="search"
               @keydown.delete="maybeDeleteValue"
               @keyup.esc="onEscape"
@@ -208,28 +287,24 @@
       <i v-if="!noDrop" ref="openIndicator" role="presentation" :class="[{'disabled': disabled}, 'open-indicator']"></i>
 
       <slot name="spinner">
-				<div class="spinner" v-show="mutableLoading">Loading...</div>
+        <div class="spinner" v-show="mutableLoading">Loading...</div>
       </slot>
     </div>
 
-    <ul ref="dropdownMenu" v-if="dropdownOpen" :transition="transition" class="dropdown-menu" :style="{ 'max-height': maxHeight }">
-      <li v-for="(option, index) in filteredOptions" v-bind:key="index" :class="{ active: isOptionSelected(option), highlight: index === typeAheadPointer }" @mouseover="typeAheadPointer = index">
-        <a @mousedown.prevent="select(option)">
-          {{ getOptionLabel(option) }}
-        </a>
-      </li>
-      <transition name="fade">
-        <li v-if="!filteredOptions.length" class="divider"></li>
-      </transition>
-      <transition name="fade">
-        <li v-if="!filteredOptions.length" class="text-center">
+    <transition :name="transition">
+      <ul ref="dropdownMenu" v-if="dropdownOpen" class="dropdown-menu" :style="{ 'max-height': maxHeight }">
+        <li v-for="(option, index) in filteredOptions" v-bind:key="index" :class="{ active: isOptionSelected(option), highlight: index === typeAheadPointer }" @mouseover="typeAheadPointer = index">
+          <a @mousedown.prevent="select(option)">
+            {{ getOptionLabel(option) }}
+          </a>
+        </li>
+        <li v-if="!filteredOptions.length" class="no-options">
           <slot name="no-options">Sorry, no matching options.</slot>
         </li>
-      </transition>
-    </ul>
+      </ul>
+    </transition>
   </div>
 </template>
-
 
 <script type="text/babel">
   import pointerScroll from '../mixins/pointerScroll'
@@ -317,7 +392,7 @@
        */
       transition: {
         type: String,
-        default: 'expand'
+        default: 'fade'
       },
 
       /**
@@ -697,6 +772,7 @@
         return {
           open: this.dropdownOpen,
           searchable: this.searchable,
+          unsearchable: !this.searchable,
           loading: this.mutableLoading
         }
       },
@@ -731,8 +807,10 @@
        */
       filteredOptions() {
         let options = this.mutableOptions.filter((option) => {
-          if (typeof option === 'object') {
+          if (typeof option === 'object' && option.hasOwnProperty(this.label)) {
             return option[this.label].toLowerCase().indexOf(this.search.toLowerCase()) > -1
+          } else if (typeof option === 'object' && !option.hasOwnProperty(this.label)) {
+            return console.warn(`[vue-select warn]: Label key "option.${this.label}" does not exist in options object.\nhttp://sagalbot.github.io/vue-select/#ex-labels`)
           }
           return option.toLowerCase().indexOf(this.search.toLowerCase()) > -1
         })

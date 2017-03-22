@@ -24,16 +24,6 @@ module.exports = {
 		onSearch: {
 			type: Function,
 			default: function(search, loading){}
-		},
-
-		/**
-		 * The number of milliseconds to wait before
-		 * invoking this.onSearch(). Used to prevent
-		 * sending an AJAX request until input is complete.
-		 */
-		debounce: {
-			type: Number,
-			default: 0
 		}
 	},
 
@@ -43,9 +33,10 @@ module.exports = {
 		 * invoke the onSearch callback.
 		 */
 		search() {
-			if (this.search.length > 0 && this.onSearch) {
+			if (this.search.length > 0) {
 				this.onSearch(this.search, this.toggleLoading)
-			}
+        this.$emit('search', this.search, this.toggleLoading)
+      }
 		},
 	},
 
@@ -59,9 +50,9 @@ module.exports = {
 		 */
 		toggleLoading(toggle = null) {
 			if (toggle == null) {
-				return this.showLoading = !this.showLoading
+				return this.mutableLoading = !this.mutableLoading
 			}
-			return this.showLoading = toggle
+			return this.mutableLoading = toggle
 		}
 	}
 }
