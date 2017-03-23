@@ -1058,6 +1058,18 @@ describe('Select.vue', () => {
 				done()
 			})
 		})
+
+		it('will sync mutable loading with the loading prop', (done) => {
+      const vm = new Vue({
+        template: '<div><v-select ref="select" :loading="loading"></v-select></div>',
+				data: {loading:false}
+      }).$mount()
+			vm.loading = true
+			Vue.nextTick(() => {
+      	expect(vm.$refs.select.mutableLoading).toEqual(true)
+				done()
+			})
+		})
 	})
 
 	describe('Reset on options change', () => {
