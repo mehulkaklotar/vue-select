@@ -35,7 +35,7 @@
         <v-select placeholder="multiple, taggable" multiple taggable :options="options" no-drop></v-select>
         <v-select placeholder="multiple, taggable, push-tags" multiple push-tags taggable :options="[{label: 'Foo', value: 'foo'}]"></v-select>
         <v-select placeholder="unsearchable" :options="options" :searchable="false"></v-select>
-        <v-select placeholder="loading" loading></v-select>
+        <v-select placeholder="search github.." label="full_name" @search="search" :options="ajaxRes"></v-select>
     </div>
 </body>
 
