@@ -82,6 +82,7 @@
   }
   /* Dropdown Menu */
   .v-select .dropdown-menu {
+    display:block;
     position: absolute;
     top: 100%;
     left: 0;
