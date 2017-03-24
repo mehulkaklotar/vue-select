@@ -27,6 +27,12 @@ module.exports = {
 		}
 	},
 
+	data() {
+		return {
+      mutableLoading: false
+    }
+	},
+
 	watch: {
 		/**
 		 * If a callback & search text has been provided,
@@ -38,6 +44,14 @@ module.exports = {
         this.$emit('search', this.search, this.toggleLoading)
       }
 		},
+    /**
+		 * Sync the loading prop with the internal
+		 * mutable loading value.
+     * @param val
+     */
+		loading(val) {
+			this.mutableLoading = val
+		}
 	},
 
 	methods: {

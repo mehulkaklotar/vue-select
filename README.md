@@ -16,6 +16,8 @@
 ## Documentation
 - **[Demo & Docs](http://sagalbot.github.io/vue-select/)**
 - **[Example on JSBin](http://jsbin.com/saxaru/8/edit?html,js,output)**
+- **[CodePen Template](http://codepen.io/sagalbot/pen/NpwrQO)**
+- **[Trello Roadmap](https://trello.com/b/vWvITNzS/vue-select)**
 
 ## Install
 

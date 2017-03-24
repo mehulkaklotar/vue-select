@@ -89,6 +89,7 @@
   }
   /* Dropdown Menu */
   .v-select .dropdown-menu {
+    display:block;
     position: absolute;
     top: 100%;
     left: 0;
@@ -282,6 +283,7 @@
               :placeholder="searchPlaceholder"
               :readonly="!searchable"
               :style="{ width: isValueEmpty ? '100%' : 'auto' }"
+              :id="inputId"
       >
 
       <i v-if="!noDrop" ref="openIndicator" role="presentation" :class="[{'disabled': disabled}, 'open-indicator']"></i>
@@ -496,6 +498,15 @@
       noDrop: {
         type: Boolean,
         default: false
+      },
+
+      /**
+       * Sets the id of the input element.
+       * @type {String}
+       * @default {null}
+       */
+      inputId: {
+        type: String
       }
     },
 
@@ -504,8 +515,7 @@
         search: '',
         open: false,
         mutableValue: null,
-        mutableOptions: [],
-				mutableLoading: false
+        mutableOptions: []
       }
     },
 
@@ -783,7 +793,7 @@
        * @return {Boolean} True if open
        */
       dropdownOpen() {
-        return this.noDrop ? false : this.open
+        return this.noDrop ? false : this.open && !this.mutableLoading
       },
 
       /**
