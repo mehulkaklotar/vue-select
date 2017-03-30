@@ -115,6 +115,14 @@
     float: left;
     line-height: 24px;
   }
+  .v-select .selected-tag.single {
+    background-color: transparent;
+    border-color: transparent;
+  }
+  .v-select.open .selected-tag.single {
+    position: absolute;
+    opacity: 0.5;
+  }
   .v-select .selected-tag .close {
     float: none;
     margin-right: 0;
@@ -254,7 +262,7 @@
   <div class="dropdown v-select" :class="dropdownClasses">
     <div ref="toggle" @mousedown.prevent="toggleDropdown" class="dropdown-toggle">
 
-      <span class="selected-tag" v-for="option in valueAsArray" v-bind:key="option.index">
+      <span class="selected-tag" :class="selectedTagClasses" v-for="option in valueAsArray" v-bind:key="option.index">
         {{ getOptionLabel(option) }}
         <button v-if="multiple" @click="deselect(option)" type="button" class="close">
           <span aria-hidden="true">&times;</span>
@@ -766,6 +774,16 @@
           searchable: this.searchable,
           unsearchable: !this.searchable,
           loading: this.mutableLoading
+        }
+      },
+
+      /**
+       * Classes to be output on .selected-tag
+       * @return {Object}
+       */
+      selectedTagClasses() {
+        return {
+          single: !this.multiple
         }
       },
 
