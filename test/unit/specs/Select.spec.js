@@ -351,6 +351,26 @@ describe('Select.vue', () => {
 			})
 		})
 
+		it('can close the dropdown when the el is clicked, multiple is true, and multipleCloseOnSelect option is true', (done) => {
+			const vm = new Vue({
+				template: '<div><v-select ref="select" :options="options" multiple closeOnMultiSelect :value="value"></v-select></div>',
+				components: {vSelect},
+				data: {
+					value: [],
+					options: ['one', 'two', 'three']
+				}
+			}).$mount()
+
+			vm.$children[0].open = true
+			vm.$refs.select.select('one')
+
+			Vue.nextTick(() => {
+				expect(vm.$children[0].open).toEqual(false)
+				done()
+			})
+		})
+
+
 		it('should close the dropdown on search blur', () => {
 			const vm = new Vue({
 				template: '<div><v-select :options="options" multiple :value="value"></v-select></div>',
