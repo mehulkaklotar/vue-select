@@ -115,13 +115,17 @@
     float: left;
     line-height: 24px;
   }
-  .v-select .selected-tag.single {
+  .v-select.single .selected-tag {
     background-color: transparent;
     border-color: transparent;
   }
-  .v-select.open .selected-tag.single {
+  .v-select.single.open .selected-tag {
     position: absolute;
-    opacity: 0.5;
+    opacity: .5;
+  }
+  .v-select.single.open.searching .selected-tag,
+  .v-select.single.loading .selected-tag {
+    display: none;
   }
   .v-select .selected-tag .close {
     float: none;
@@ -137,6 +141,9 @@
     color: #000;
     text-shadow: 0 1px 0 #fff;
     filter: alpha(opacity=20);
+    opacity: .2;
+  }
+  .v-select.single.searching:not(.open):not(.loading) input[type="search"] {
     opacity: .2;
   }
   /* Search Input */
@@ -262,7 +269,7 @@
   <div class="dropdown v-select" :class="dropdownClasses">
     <div ref="toggle" @mousedown.prevent="toggleDropdown" class="dropdown-toggle">
 
-      <span class="selected-tag" :class="selectedTagClasses" v-for="option in valueAsArray" v-bind:key="option.index">
+      <span class="selected-tag" v-for="option in valueAsArray" v-bind:key="option.index">
         {{ getOptionLabel(option) }}
         <button v-if="multiple" @click="deselect(option)" type="button" class="close">
           <span aria-hidden="true">&times;</span>
@@ -702,6 +709,9 @@
        * @return {void}
        */
       onSearchBlur() {
+        if (this.clearSearchOnBlur) {
+          this.search = ''
+        }
         this.open = false
         this.$emit('search:blur')
       },
@@ -771,6 +781,8 @@
       dropdownClasses() {
         return {
           open: this.dropdownOpen,
+          single: !this.multiple,
+          searching: this.searching,
           searchable: this.searchable,
           unsearchable: !this.searchable,
           loading: this.mutableLoading
@@ -778,13 +790,20 @@
       },
 
       /**
-       * Classes to be output on .selected-tag
-       * @return {Object}
+       * If search text should clear on blur
+       * @return {Boolean} True when single and clearSearchOnSelect
        */
-      selectedTagClasses() {
-        return {
-          single: !this.multiple
-        }
+      clearSearchOnBlur() {
+        return this.clearSearchOnSelect && !this.multiple
+      },  
+
+      /**
+       * Return the current state of the
+       * search input
+       * @return {Boolean} True if non empty value
+       */
+      searching() {
+        return !!this.search
       },
 
       /**
