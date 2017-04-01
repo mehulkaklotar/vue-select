@@ -391,7 +391,7 @@
       },
 
       /**
-       * Close a dropdown when an option is select. Set to false to keep the dropdown
+       * Close a dropdown when an option is chosen. Set to false to keep the dropdown
        * open (useful when combined with multi-select, for example)
        * @type {Boolean}
        */
