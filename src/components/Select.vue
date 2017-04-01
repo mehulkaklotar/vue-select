@@ -391,13 +391,13 @@
       },
 
       /**
-       * Allows user to choose to close the select dropdown when an option is selected.
-       * set to true when multiple=true to close the dropdown between each selection
+       * Close a dropdown when an option is select. Set to false to keep the dropdown
+       * open (useful when combined with multi-select, for example)
        * @type {Boolean}
        */
-      closeOnMultiSelect: {
+      closeOnSelect: {
         type: Boolean,
-        default: false
+        default: true
       },
 
       /**
@@ -635,12 +635,7 @@
        * @return {void}
        */
       onAfterSelect(option) {
-        if (this.multiple) {
-          if (this.closeOnMultiSelect) {
-            this.open = !this.open
-            this.$refs.search.blur()
-          }
-        } else {
+        if (this.closeOnSelect) {
           this.open = !this.open
           this.$refs.search.blur()
         }
