@@ -72,6 +72,16 @@
     },
 
     /**
+     * Close a dropdown when an option is select. Set to false to keep the dropdown
+     * open (useful when combined with multi-select, for example)
+     * @type {Boolean}
+     */
+    closeOnSelect: {
+      type: Boolean,
+      default: true
+    },
+
+    /**
      * Tells vue-select what key to use when generating option labels when
      * `option` is an object.
      * @type {String}
