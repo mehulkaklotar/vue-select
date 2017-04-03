@@ -1104,4 +1104,47 @@ describe('Select.vue', () => {
 			})
 		})
 	})
+
+	describe('Single value options', () => {
+		it('should reset the search input on focus lost', (done) => {
+			const vm = new Vue({
+				template: '<div><v-select ref="select" :options="options" :value="value"></v-select></div>',
+				data: {
+					value: 'one',
+					options: ['one', 'two', 'three']
+				}
+			}).$mount()
+			
+			vm.$children[0].open = true
+			vm.$refs.select.search = "t"
+			expect(vm.$refs.select.search).toEqual('t')
+			
+			vm.$children[0].onSearchBlur()
+			Vue.nextTick(() => {
+				expect(vm.$refs.select.search).toEqual('')
+				done()
+			})
+		})
+
+		it ('should not reset the search input on focus lost when clearSearchOnSelect is false', (done) => {
+			const vm = new Vue({
+				template: '<div><v-select ref="select" :options="options" :value="value" :clear-search-on-select="false"></v-select></div>',
+				data: {
+					value: 'one',
+					options: ['one', 'two', 'three']
+				}
+			}).$mount()
+			expect(vm.$refs.select.clearSearchOnSelect).toEqual(false)
+
+			vm.$children[0].open = true
+			vm.$refs.select.search = "t"
+			expect(vm.$refs.select.search).toEqual('t')
+
+			vm.$children[0].onSearchBlur()
+			Vue.nextTick(() => {
+				expect(vm.$refs.select.search).toEqual('t')
+				done()
+			})
+		})
+	})
 })
