@@ -391,6 +391,16 @@
       },
 
       /**
+       * Close a dropdown when an option is chosen. Set to false to keep the dropdown
+       * open (useful when combined with multi-select, for example)
+       * @type {Boolean}
+       */
+      closeOnSelect: {
+        type: Boolean,
+        default: true
+      },
+
+      /**
        * Tells vue-select what key to use when generating option
        * labels when each `option` is an object.
        * @type {String}
@@ -625,7 +635,7 @@
        * @return {void}
        */
       onAfterSelect(option) {
-        if (!this.multiple) {
+        if (this.closeOnSelect) {
           this.open = !this.open
           this.$refs.search.blur()
         }
