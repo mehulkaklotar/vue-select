@@ -12,7 +12,7 @@ When the list of options provided by the parent changes, vue-select will react a
 <div class="radio">
   <label>
     <input type="radio" name="reactive-options" v-model="reactive" :value="['foo','bar','baz']">
-    `<v-select options="['foo','bar','baz']"></v-select>`
+    `<v-select :options="['foo','bar','baz']"></v-select>`
   </label>
 </div>
 
