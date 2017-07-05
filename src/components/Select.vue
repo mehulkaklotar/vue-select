@@ -283,7 +283,7 @@
               @keyup.esc="onEscape"
               @keydown.up.prevent="typeAheadUp"
               @keydown.down.prevent="typeAheadDown"
-              @keyup.enter.prevent="typeAheadSelect"
+              @keydown.enter.prevent="typeAheadSelect"
               @blur="onSearchBlur"
               @focus="onSearchFocus"
               type="search"
