@@ -191,9 +191,9 @@
     clear: none;
   }
   /* Search Input States */
-  .v-select.unsearchable input[type="search"] {
+  /* .v-select.unsearchable input[type="search"] {
     max-width: 1px;
-  }
+  } */
   /* List Items */
   .v-select li {
     line-height: 1.42857143; /* Normalize line height */
