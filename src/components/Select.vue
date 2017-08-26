@@ -298,7 +298,7 @@
       <i v-if="!noDrop" ref="openIndicator" role="presentation" class="open-indicator"></i>
 
       <slot name="spinner">
-        <div class="spinner" v-show="mutableLoading">Loading...</div>
+        <div class="spinner" v-show="mutableLoading">{{ loadingText }}</div>
       </slot>
     </div>
 
@@ -310,7 +310,7 @@
           </a>
         </li>
         <li v-if="!filteredOptions.length" class="no-options">
-          <slot name="no-options">Sorry, no matching options.</slot>
+          <slot name="no-options">{{ noMatchText }}</slot>
         </li>
       </ul>
     </transition>
@@ -341,7 +341,7 @@
        * If you are using an array of objects, vue-select will look for
        * a `label` key (ex. [{label: 'This is Foo', value: 'foo'}]). A
        * custom label key can be set with the `label` prop.
-       * @type {Object}
+       * @type {Array}
        */
       options: {
         type: Array,
@@ -371,7 +371,7 @@
 
       /**
        * Equivalent to the `multiple` attribute on a `<select>` input.
-       * @type {Object}
+       * @type {Boolean}
        */
       multiple: {
         type: Boolean,
@@ -380,11 +380,29 @@
 
       /**
        * Equivalent to the `placeholder` attribute on an `<input>`.
-       * @type {Object}
+       * @type {String}
        */
       placeholder: {
         type: String,
         default: ''
+      },
+
+      /**
+       * Text to show if there is no matching options
+       * @type {String}
+       */
+      noMatchText: {
+        type: String,
+        default: 'Sorry, no matching options.'
+      },
+
+      /**
+       * Text to show when loading
+       * @type {String}
+       */
+      loadingText: {
+        type: String,
+        default: 'Loading...'
       },
 
       /**
@@ -429,6 +447,7 @@
       /**
        * Callback to generate the label text. If {option}
        * is an object, returns option[this.label] by default.
+       * @type {Function}
        * @param  {Object || String} option
        * @return {String}
        */
@@ -449,7 +468,7 @@
        * value(s) change. When integrating with Vuex, use this callback to trigger
        * an action, rather than using :value.sync to retreive the selected value.
        * @type {Function}
-       * @default {null}
+       * @param {Object || String} val
        */
       onChange: {
         type: Function,
