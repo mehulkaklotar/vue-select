@@ -436,6 +436,9 @@
         type: Function,
         default(option) {
           if (typeof option === 'object') {
+            if (!option.hasOwnProperty(this.label)) {
+              return console.warn(`[vue-select warn]: Label key "option.${this.label}" does not exist in options object.\nhttp://sagalbot.github.io/vue-select/#ex-labels`)
+            }
             if (this.label && option[this.label]) {
               return option[this.label]
             }
@@ -847,12 +850,11 @@
        */
       filteredOptions() {
         let options = this.mutableOptions.filter((option) => {
-          if (typeof option === 'object' && option.hasOwnProperty(this.label)) {
-            return option[this.label].toLowerCase().indexOf(this.search.toLowerCase()) > -1
-          } else if (typeof option === 'object' && !option.hasOwnProperty(this.label)) {
-            return console.warn(`[vue-select warn]: Label key "option.${this.label}" does not exist in options object.\nhttp://sagalbot.github.io/vue-select/#ex-labels`)
+          let label = this.getOptionLabel(option)
+          if (typeof label === 'number') {
+            label = label.toString()
           }
-          return option.toLowerCase().indexOf(this.search.toLowerCase()) > -1
+          return label.toLowerCase().indexOf(this.search.toLowerCase()) > -1
         })
         if (this.taggable && this.search.length && !this.optionExists(this.search)) {
           options.unshift(this.search)
