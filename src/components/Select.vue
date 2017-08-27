@@ -446,6 +446,21 @@
           return option;
         }
       },
+      
+      /**
+       * Callback to filter the search result the label text. 
+       * @type   {Function} 
+       * @param  {Object || String} option 
+       * @param  {String} label 
+       * @param  {String} search
+       * @return {Boolean}
+       */
+      filterFunction: {
+        type: Function,
+        default(option, label, search) {
+          return label.toLowerCase().indexOf(search.toLowerCase()) > -1 
+        }
+      },
 
       /**
        * An optional callback function that is called each time the selected
@@ -854,7 +869,7 @@
           if (typeof label === 'number') {
             label = label.toString()
           }
-          return label.toLowerCase().indexOf(this.search.toLowerCase()) > -1
+          return this.filterFunction(option, label, this.search)
         })
         if (this.taggable && this.search.length && !this.optionExists(this.search)) {
           options.unshift(this.search)
