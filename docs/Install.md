@@ -1,36 +1,20 @@
+## Vue Compatibility
+-  `vue ~2.0` use `vue-select ~2.0`
+-  `vue ~1.0` use `vue-select ~1.0`
+
 ## NPM Based WorkFlows
-``` bash
+```bash
 $ npm install vue-select
-```
-
-```html
-<template>
-   <div id="myApp">
-      <v-select v-model="selected" :options="options"></v-select>
-   </div>
-</template>
-
-<script>
-import vSelect from 'vue-select'
-export default {
-  components: {vSelect},
-  data() {
-     return {
-        selected: null,
-        options: ['foo','bar','baz']
-     }
-  }
-}
-</script>
 ```
 
 ## Browser Globals
 
-`v1.3.0+` no longer requires any toolchain to use the component:
-
-Just include `vue` & `vue-select.js` - I recommend using [unpkg.com](https://unpkg.com/#/).
+Include `vue` & `vue-select.js` - I recommend using [unpkg.com](https://unpkg.com/#/).
 
 ```html
+<!-- include VueJS first -->
+<script src="https://unpkg.com/vue@latest"></script>
+
 <!-- use the latest release -->
 <script src="https://unpkg.com/vue-select@latest"></script>
 <!-- or point to a specific release -->
