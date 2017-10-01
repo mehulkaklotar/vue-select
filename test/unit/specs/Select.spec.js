@@ -315,6 +315,25 @@ describe('Select.vue', () => {
 	})
 
 	describe('Toggling Dropdown', () => {
+		it('should not open the dropdown when the el is clicked but the component is disabled', (done) => {
+			const vm = new Vue({
+				template: '<div><v-select :options="options" :value="value" disabled></v-select></div>',
+				components: {vSelect},
+				data: {
+					value: [{label: 'one'}],
+					options: [{label: 'one'}]
+				}
+			}).$mount()
+
+			vm.$children[0].toggleDropdown({target: vm.$children[0].$refs.search})
+			Vue.nextTick(() => {
+				Vue.nextTick(() => {
+					expect(vm.$children[0].open).toEqual(false)
+					done()
+				})
+			})
+		})
+
 		it('should open the dropdown when the el is clicked', (done) => {
 			const vm = new Vue({
 				template: '<div><v-select :options="options" :value="value"></v-select></div>',

@@ -3,12 +3,19 @@
     position: relative;
     font-family: sans-serif;
   }
+
+  .v-select .disabled {
+    cursor: not-allowed !important;
+    background-color: rgb(248, 248, 248) !important;
+  }
+
   .v-select,
   .v-select * {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
   }
+
   /* Open Indicator */
   .v-select .open-indicator {
     position: absolute;
@@ -267,7 +274,7 @@
 
 <template>
   <div class="dropdown v-select" :class="dropdownClasses">
-    <div ref="toggle" @mousedown.prevent="toggleDropdown" class="dropdown-toggle">
+    <div ref="toggle" @mousedown.prevent="toggleDropdown" :class="['dropdown-toggle', 'clearfix', {'disabled': disabled}]" type="button">
 
       <span class="selected-tag" v-for="option in valueAsArray" v-bind:key="option.index">
         <slot name="selected-option" v-bind="option">
@@ -289,7 +296,7 @@
               @blur="onSearchBlur"
               @focus="onSearchFocus"
               type="search"
-              class="form-control"
+              :class="[{'disabled': disabled}, 'form-control']"
               :placeholder="searchPlaceholder"
               :readonly="!searchable"
               :style="{ width: isValueEmpty ? '100%' : 'auto' }"
@@ -297,7 +304,7 @@
               aria-label="Search for option"
       >
 
-      <i v-if="!noDrop" ref="openIndicator" role="presentation" class="open-indicator"></i>
+      <i v-if="!noDrop" ref="openIndicator" role="presentation" :class="[{'disabled': disabled}, 'open-indicator']"></i>
 
       <slot name="spinner">
         <div class="spinner" v-show="mutableLoading">Loading...</div>
@@ -352,6 +359,15 @@
         default() {
           return []
         },
+      },
+
+      /**
+       * Disable the entire component.
+       * @type {Boolean}
+       */
+      disabled: {
+        type: Boolean,
+        default: false
       },
 
       /**
@@ -675,8 +691,10 @@
           if (this.open) {
             this.$refs.search.blur() // dropdown will close on blur
           } else {
-            this.open = true
-            this.$refs.search.focus()
+            if (!this.disabled) {
+              this.open = true
+              this.$refs.search.focus()
+            }
           }
         }
       },
