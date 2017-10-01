@@ -3,6 +3,12 @@
     position: relative;
     font-family: sans-serif;
   }
+
+  .v-select .disabled {
+    cursor: not-allowed !important;
+    background-color: rgb(248, 248, 248) !important;
+  }
+
   .v-select,
   .v-select * {
     -webkit-box-sizing: border-box;
@@ -33,7 +39,6 @@
     transition: all 150ms cubic-bezier(1.000, -0.115, 0.975, 0.855);
     transition-timing-function: cubic-bezier(1.000, -0.115, 0.975, 0.855);
     opacity: 1;
-    transition: opacity .1s;
     height: 20px; width: 10px;
   }
   .v-select .open-indicator:before {
@@ -71,7 +76,6 @@
     border: 1px solid rgba(60, 60, 60, .26);
     border-radius: 4px;
     white-space: normal;
-    transition: border-radius .25s;
   }
   .v-select .dropdown-toggle:after {
     visibility: hidden;
@@ -280,10 +284,12 @@
 
 <template>
   <div class="dropdown v-select" :class="dropdownClasses">
-    <div ref="toggle" @mousedown.prevent="toggleDropdown" class="dropdown-toggle">
+    <div ref="toggle" @mousedown.prevent="toggleDropdown" :class="['dropdown-toggle', 'clearfix', {'disabled': disabled}]">
 
       <span class="selected-tag" v-for="option in valueAsArray" v-bind:key="option.index">
-        {{ getOptionLabel(option) }}
+        <slot name="selected-option" v-bind="option">
+          {{ getOptionLabel(option) }}
+        </slot>
         <button v-if="multiple" @click="deselect(option)" type="button" class="close" aria-label="Remove option">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -300,7 +306,7 @@
               @blur="onSearchBlur"
               @focus="onSearchFocus"
               type="search"
-              class="form-control"
+              :class="[{'disabled': disabled}, 'form-control']"
               :placeholder="searchPlaceholder"
               :readonly="!searchable"
               :style="{ width: isValueEmpty ? '100%' : 'auto' }"
@@ -308,7 +314,7 @@
               aria-label="Search for option"
       >
 
-      <i v-if="!noDrop" ref="openIndicator" role="presentation" class="open-indicator"></i>
+      <i v-if="!noDrop" ref="openIndicator" role="presentation" :class="[{'disabled': disabled}, 'open-indicator']"></i>
 
       <slot name="spinner">
         <div class="spinner" v-show="mutableLoading">Loading...</div>
@@ -319,7 +325,9 @@
       <ul ref="dropdownMenu" v-if="dropdownOpen" class="dropdown-menu" :style="{ 'max-height': maxHeight }">
         <li v-for="(option, index) in filteredOptions" v-bind:key="index" :class="{ active: isOptionSelected(option), highlight: index === typeAheadPointer }" @mouseover="typeAheadPointer = index">
           <a @mousedown.prevent="select(option)">
+          <slot name="option" v-bind="option">
             {{ getOptionLabel(option) }}
+          </slot>
           </a>
         </li>
         <li v-if="!filteredOptions.length" class="no-options">
@@ -354,13 +362,22 @@
        * If you are using an array of objects, vue-select will look for
        * a `label` key (ex. [{label: 'This is Foo', value: 'foo'}]). A
        * custom label key can be set with the `label` prop.
-       * @type {Object}
+       * @type {Array}
        */
       options: {
         type: Array,
         default() {
           return []
         },
+      },
+
+      /**
+       * Disable the entire component.
+       * @type {Boolean}
+       */
+      disabled: {
+        type: Boolean,
+        default: false
       },
 
       /**
@@ -384,7 +401,7 @@
 
       /**
        * Equivalent to the `multiple` attribute on a `<select>` input.
-       * @type {Object}
+       * @type {Boolean}
        */
       multiple: {
         type: Boolean,
@@ -393,7 +410,7 @@
 
       /**
        * Equivalent to the `placeholder` attribute on an `<input>`.
-       * @type {Object}
+       * @type {String}
        */
       placeholder: {
         type: String,
@@ -442,6 +459,7 @@
       /**
        * Callback to generate the label text. If {option}
        * is an object, returns option[this.label] by default.
+       * @type {Function}
        * @param  {Object || String} option
        * @return {String}
        */
@@ -462,7 +480,7 @@
        * value(s) change. When integrating with Vuex, use this callback to trigger
        * an action, rather than using :value.sync to retreive the selected value.
        * @type {Function}
-       * @default {null}
+       * @param {Object || String} val
        */
       onChange: {
         type: Function,
@@ -693,8 +711,10 @@
           if (this.open) {
             this.$refs.search.blur() // dropdown will close on blur
           } else {
-            this.open = true
-            this.$refs.search.focus()
+            if (!this.disabled) {
+              this.open = true
+              this.$refs.search.focus()
+            }
           }
         }
       },
