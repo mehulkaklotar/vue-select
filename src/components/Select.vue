@@ -27,7 +27,6 @@
     transition: all 150ms cubic-bezier(1.000, -0.115, 0.975, 0.855);
     transition-timing-function: cubic-bezier(1.000, -0.115, 0.975, 0.855);
     opacity: 1;
-    transition: opacity .1s;
     height: 20px; width: 10px;
   }
   .v-select .open-indicator:before {
@@ -65,7 +64,6 @@
     border: 1px solid rgba(60, 60, 60, .26);
     border-radius: 4px;
     white-space: normal;
-    transition: border-radius .25s;
   }
   .v-select .dropdown-toggle:after {
     visibility: hidden;
