@@ -283,7 +283,7 @@
 </style>
 
 <template>
-  <div class="dropdown v-select" :class="dropdownClasses">
+  <div :dir="dir" class="dropdown v-select" :class="dropdownClasses">
     <div ref="toggle" @mousedown.prevent="toggleDropdown" :class="['dropdown-toggle', 'clearfix', {'disabled': disabled}]">
 
       <span class="selected-tag" v-for="option in valueAsArray" v-bind:key="option.index">
@@ -551,12 +551,14 @@
       },
 
       /**
-       * Sets Rtl support.
-       * @type {Boolean}
+       * Sets RTL support. Accepts 'ltr', 'rtl', 'auto'.
+       * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/dir
+       * @type {String}
+       * @default 'auto'
        */
-      rtl: {
-        type: Boolean,
-        default: false
+      dir: {
+        type: String,
+        default: 'auto'
       },
     },
 
@@ -839,7 +841,7 @@
           searchable: this.searchable,
           unsearchable: !this.searchable,
           loading: this.mutableLoading,
-          rtl: this.rtl
+          rtl: this.dir === 'rtl'
         }
       },
 
