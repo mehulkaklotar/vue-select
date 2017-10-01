@@ -350,7 +350,7 @@
        * If you are using an array of objects, vue-select will look for
        * a `label` key (ex. [{label: 'This is Foo', value: 'foo'}]). A
        * custom label key can be set with the `label` prop.
-       * @type {Object}
+       * @type {Array}
        */
       options: {
         type: Array,
@@ -389,7 +389,7 @@
 
       /**
        * Equivalent to the `multiple` attribute on a `<select>` input.
-       * @type {Object}
+       * @type {Boolean}
        */
       multiple: {
         type: Boolean,
@@ -398,7 +398,7 @@
 
       /**
        * Equivalent to the `placeholder` attribute on an `<input>`.
-       * @type {Object}
+       * @type {String}
        */
       placeholder: {
         type: String,
@@ -447,6 +447,7 @@
       /**
        * Callback to generate the label text. If {option}
        * is an object, returns option[this.label] by default.
+       * @type {Function}
        * @param  {Object || String} option
        * @return {String}
        */
@@ -467,7 +468,7 @@
        * value(s) change. When integrating with Vuex, use this callback to trigger
        * an action, rather than using :value.sync to retreive the selected value.
        * @type {Function}
-       * @default {null}
+       * @param {Object || String} val
        */
       onChange: {
         type: Function,
