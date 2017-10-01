@@ -46,7 +46,7 @@
         <div class="radio">
           <label>
             <input type="radio" name="reactive-options" v-model="reactive" :value="['foo','bar','baz']">
-            <v-code lang="markup">&#x3C;v-select options=&#x22;['foo','bar','baz']&#x22;&#x3E;&#x3C;/v-select&#x3E;</v-code>
+            <v-code lang="markup">&#x3C;v-select :options=&#x22;['foo','bar','baz']&#x22;&#x3E;&#x3C;/v-select&#x3E;</v-code>
           </label>
         </div>
       </div>
