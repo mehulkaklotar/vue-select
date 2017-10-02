@@ -65,7 +65,7 @@ function searchSubmit(vm, search = false) {
 		vm.$children[0].search = search
 	}
 
-	trigger(vm.$children[0].$refs.search, 'keyup', function (e) {
+	trigger(vm.$children[0].$refs.search, 'keydown', function (e) {
 		e.keyCode = 13
 	})
 }
