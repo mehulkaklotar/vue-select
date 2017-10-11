@@ -15,12 +15,6 @@
     "test": "karma start test/unit/karma.conf.js --single-run",
     "test-watch": "karma start test/unit/karma.conf.js --single-run=false --auto-watch=true"
   },
-  "browserify": {
-    "transform": [
-      "vueify",
-      "babelify"
-    ]
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/sagalbot/vue-select.git"
