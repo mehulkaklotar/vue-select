@@ -693,6 +693,22 @@ describe('Select.vue', () => {
 			})
 		})
 
+		it('should not remove tag when close icon is clicked and component is disabled', (done) => {
+			const vm = new Vue({
+				template: '<div><v-select disabled multiple :options="options" v-model="value"></v-select></div>',
+				components: {vSelect},
+				data: {
+					value: ['one'],
+					options: ['one', 'two', 'three']
+				}
+			}).$mount()
+			vm.$children[0].$refs.toggle.querySelector('.close').click()
+			Vue.nextTick(() => {
+				expect(vm.$children[0].mutableValue).toEqual(['one'])
+				done()
+			})
+		})
+
 		it('should remove the last item in the value array on delete keypress when multiple is true', () => {
 
 			const vm = new Vue({
