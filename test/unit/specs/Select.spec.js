@@ -4,7 +4,7 @@
 import Vue from 'vue'
 import vSelect from 'src/components/Select.vue'
 import pointerScroll from 'src/mixins/pointerScroll.js'
-
+Vue.config.productionTip = false
 //  http://vue-loader.vuejs.org/en/workflow/testing-with-mocks.html
 const Mock = require('!!vue?inject!src/components/Select.vue')
 
@@ -1189,11 +1189,11 @@ describe('Select.vue', () => {
 					options: ['one', 'two', 'three']
 				}
 			}).$mount()
-			
+
 			vm.$children[0].open = true
 			vm.$refs.select.search = "t"
 			expect(vm.$refs.select.search).toEqual('t')
-			
+
 			vm.$children[0].onSearchBlur()
 			Vue.nextTick(() => {
 				expect(vm.$refs.select.search).toEqual('')
