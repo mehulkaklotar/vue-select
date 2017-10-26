@@ -1,24 +1,19 @@
 {
   "name": "vue-select",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "description": "A native Vue.js component that provides similar functionality to Select2 without the overhead of jQuery.",
   "author": "Jeff Sagal <sagalbot@gmail.com>",
   "private": false,
   "main": "dist/vue-select.js",
   "license": "MIT",
   "scripts": {
+    "start": "npm run dev",
     "dev": "node build/dev-server.js",
     "dev:docs": "node build/dev-server.js --docs",
     "build": "node build/build.js",
     "lint": "eslint --ext .js,.vue src test/unit/specs",
     "test": "karma start test/unit/karma.conf.js --single-run",
     "test-watch": "karma start test/unit/karma.conf.js --single-run=false --auto-watch=true"
-  },
-  "browserify": {
-    "transform": [
-      "vueify",
-      "babelify"
-    ]
   },
   "repository": {
     "type": "git",
