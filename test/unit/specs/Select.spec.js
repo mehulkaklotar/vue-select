@@ -312,6 +312,18 @@ describe('Select.vue', () => {
 			vm.$refs.select.search = 'ba'
 			expect(JSON.stringify(vm.$refs.select.filteredOptions)).toEqual(JSON.stringify([{label: 'Bar', value: 'bar'}, {label: 'Baz', value: 'baz'}]))
 		})
+
+		it('can use a custom filterFunction passed via props', ()=>{
+			const vm = new Vue({
+				template: `<div><v-select ref="select" :filterFunction="customFn" :options="[{label: 'Aoo', value: 'foo'}, {label: 'Bar', value: 'bar'}, {label: 'Baz', value: 'baz'}]" v-model="value"></v-select></div>`,
+				data: {value: 'foo'},
+				methods:{
+					customFn: (option, label, search) => label.match(new RegExp('^' + search, 'i'))
+				}
+			}).$mount()
+			vm.$refs.select.search = 'a'
+			expect(JSON.stringify(vm.$refs.select.filteredOptions)).toEqual(JSON.stringify([{label: 'Aoo', value: 'foo'}]))
+		})
 	})
 
 	describe('Toggling Dropdown', () => {
