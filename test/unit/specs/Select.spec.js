@@ -761,7 +761,7 @@ describe('Select.vue', () => {
 			}).$mount()
 			Vue.nextTick(() => {
 				expect(console.warn).toHaveBeenCalledWith(
-						'[vue-select warn]: Label key "option.label" does not exist in options object.' +
+						'[vue-select warn]: Label key "option.label" does not exist in options object {}.' +
 						'\nhttp://sagalbot.github.io/vue-select/#ex-labels'
 				)
 				done()
