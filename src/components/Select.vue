@@ -483,19 +483,19 @@
           return option;
         }
       },
-      
+
       /**
-       * Callback to filter the search result the label text. 
-       * @type   {Function} 
-       * @param  {Object || String} option 
-       * @param  {String} label 
+       * Callback to filter the search result the label text.
+       * @type   {Function}
+       * @param  {Object || String} option
+       * @param  {String} label
        * @param  {String} search
        * @return {Boolean}
        */
       filterFunction: {
         type: Function,
         default(option, label, search) {
-          return label.toLowerCase().indexOf(search.toLowerCase()) > -1 
+          return (label || '').toLowerCase().indexOf(search.toLowerCase()) > -1
         }
       },
 
