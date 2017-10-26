@@ -952,7 +952,7 @@
         if (this.multiple) {
           return this.mutableValue
         } else if (this.mutableValue) {
-          return [this.mutableValue]
+          return [].concat(this.mutableValue)
         }
 
         return []
