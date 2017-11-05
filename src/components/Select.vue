@@ -23,6 +23,10 @@
   .v-select.rtl .dropdown-menu {
     text-align: right;
   }
+  .v-select.rtl .dropdown-toggle .clear {
+    left: 30px;
+    right: auto;
+  }
   /* Open Indicator */
   .v-select .open-indicator {
     position: absolute;
@@ -80,6 +84,22 @@
     clear: both;
     height: 0;
   }
+
+  /* Clear Button */
+  .v-select .dropdown-toggle .clear {
+    position: absolute;
+    bottom: 7px;
+    right: 30px;
+    font-size: 23px;
+    font-weight: 700;
+    line-height: 1;
+    color: rgba(60, 60, 60, .5);
+    padding: 0;
+    border: 0;
+    background-color: transparent;
+    cursor: pointer;
+  }
+
   /* Dropdown Toggle States */
   .v-select.searchable .dropdown-toggle {
     cursor: text;
@@ -244,6 +264,7 @@
 
   /* Disabled state */
   .v-select.disabled .dropdown-toggle,
+  .v-select.disabled .dropdown-toggle .clear,
   .v-select.disabled .dropdown-toggle input,
   .v-select.disabled .selected-tag .close,
   .v-select.disabled .open-indicator {
@@ -315,6 +336,17 @@
               :id="inputId"
               aria-label="Search for option"
       >
+
+      <button 
+        v-show="showClearButton" 
+        :disabled="disabled" 
+        @click="clearSelection"
+        type="button" 
+        class="clear" 
+        title="Clear selection" 
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
 
       <i v-if="!noDrop" ref="openIndicator" role="presentation" class="open-indicator"></i>
 
@@ -690,6 +722,14 @@
       },
 
       /**
+       * Clears the currently selected value(s)
+       * @return {void}
+       */
+       clearSelection() {
+         this.mutableValue = this.multiple ? [] : null
+       },
+
+      /**
        * Called from this.select after each selection.
        * @param  {Object|String} option
        * @return {void}
@@ -935,6 +975,14 @@
         }
 
         return []
+      },
+
+      /**
+       * Determines if the clear button should be displayed.
+       * @return {Boolean}
+       */
+      showClearButton() {
+        return !this.multiple && !this.open && this.mutableValue != null
       }
     },
 
