@@ -310,6 +310,7 @@
               class="form-control"
               :disabled="disabled"
               :placeholder="searchPlaceholder"
+              :tabindex="tabindex"
               :readonly="!searchable"
               :style="{ width: isValueEmpty ? '100%' : 'auto' }"
               :id="inputId"
@@ -498,6 +499,15 @@
       taggable: {
         type: Boolean,
         default: false
+      },
+
+      /**
+       * Set the tabindex for the input field.
+       * @type {Number}
+       */
+      tabindex: {
+        type: Number,
+        default: null
       },
 
       /**
