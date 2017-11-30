@@ -1225,7 +1225,7 @@ describe('Select.vue', () => {
 
 	describe( 'Clear button', () => {
 
-		it( 'should display clear button on single select with a selected value', () => {
+		it( 'should be displayed on single select when value is selected', () => {
 			const VueSelect = Vue.extend( vSelect )
 			const vm = new VueSelect({
 				propsData: {
@@ -1237,7 +1237,7 @@ describe('Select.vue', () => {
 			expect(vm.showClearButton).toEqual(true)
 		})
 
-		it( 'should not display clear button on multiple select', () => {
+		it( 'should not be displayed on multiple select', () => {
 			const VueSelect = Vue.extend( vSelect )
 			const vm = new VueSelect({
 				propsData: {
@@ -1250,7 +1250,7 @@ describe('Select.vue', () => {
 			expect(vm.showClearButton).toEqual(false)
 		})
 
-		it( 'should remove selected value when clear button is clicked', () => {
+		it( 'should remove selected value when clicked', () => {
 			const VueSelect = Vue.extend( vSelect )
 			const vm = new VueSelect({
 				propsData: {
@@ -1262,6 +1262,20 @@ describe('Select.vue', () => {
 			expect(vm.mutableValue).toEqual('foo')
 			vm.$el.querySelector( 'button.clear' ).click()
 			expect(vm.mutableValue).toEqual(null)
+		})
+
+		it( 'should be disabled when component is disabled', () => {
+			const VueSelect = Vue.extend( vSelect )
+			const vm = new VueSelect({
+				propsData: {
+					options: ['foo','bar'],
+					value: 'foo',
+					disabled: true
+				}
+			}).$mount()
+
+			const buttonEl = vm.$el.querySelector( 'button.clear' )
+			expect(buttonEl.disabled).toEqual(true);
 		})
 	
 	});
