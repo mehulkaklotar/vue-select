@@ -1222,4 +1222,47 @@ describe('Select.vue', () => {
 			})
 		})
 	})
+
+	describe( 'Clear button', () => {
+
+		it( 'should display clear button on single select with a selected value', () => {
+			const VueSelect = Vue.extend( vSelect )
+			const vm = new VueSelect({
+				propsData: {
+					options: ['foo','bar'],
+					value: 'foo'
+				}
+			}).$mount()
+
+			expect(vm.showClearButton).toEqual(true)
+		})
+
+		it( 'should not display clear button on multiple select', () => {
+			const VueSelect = Vue.extend( vSelect )
+			const vm = new VueSelect({
+				propsData: {
+					options: ['foo','bar'],
+					value: 'foo',
+					multiple: true
+				}
+			}).$mount()
+
+			expect(vm.showClearButton).toEqual(false)
+		})
+
+		it( 'should remove selected value when clear button is clicked', () => {
+			const VueSelect = Vue.extend( vSelect )
+			const vm = new VueSelect({
+				propsData: {
+					options: ['foo','bar'],
+					value: 'foo'
+				}
+			}).$mount()
+			
+			expect(vm.mutableValue).toEqual('foo')
+			vm.$el.querySelector( 'button.clear' ).click()
+			expect(vm.mutableValue).toEqual(null)
+		})
+	
+	});
 })
