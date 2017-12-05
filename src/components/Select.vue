@@ -505,6 +505,16 @@
       },
 
       /**
+       * When true, existing options will be filtered
+       * by the search text.
+       * @type {Boolean}
+       */
+      filterOptions: {
+        type: Boolean,
+        default: true
+      },
+
+      /**
        * User defined function for adding Options
        * @type {Function}
        */
@@ -887,6 +897,9 @@
        * @return {array}
        */
       filteredOptions() {
+        if (this.filterOptions === false) {
+          return this.mutableOptions
+        }
         let options = this.mutableOptions.filter((option) => {
           if (typeof option === 'object' && option.hasOwnProperty(this.label)) {
             return option[this.label].toLowerCase().indexOf(this.search.toLowerCase()) > -1
