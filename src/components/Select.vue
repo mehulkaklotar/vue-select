@@ -506,7 +506,8 @@
 
       /**
        * When true, existing options will be filtered
-       * by the search text.
+       * by the search text. Should not be used in conjunction
+       * with taggable.
        * @type {Boolean}
        */
       filterOptions: {
@@ -897,8 +898,8 @@
        * @return {array}
        */
       filteredOptions() {
-        if (this.filterOptions === false) {
-          return this.mutableOptions
+        if (!this.filterOptions && !this.taggable) {
+          return this.mutableOptions.slice()
         }
         let options = this.mutableOptions.filter((option) => {
           if (typeof option === 'object' && option.hasOwnProperty(this.label)) {
