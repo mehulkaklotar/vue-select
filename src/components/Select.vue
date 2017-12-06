@@ -308,6 +308,7 @@
               @focus="onSearchFocus"
               type="search"
               class="form-control"
+              autocomplete="false"
               :disabled="disabled"
               :placeholder="searchPlaceholder"
               :tabindex="tabindex"
