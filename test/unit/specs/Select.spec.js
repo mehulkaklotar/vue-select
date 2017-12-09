@@ -295,9 +295,9 @@ describe('Select.vue', () => {
 			expect(vm.$refs.select.filteredOptions).toEqual(['bar','baz'])
 		})
 
-		it('should not filter the array of strings if filterOptions is false', () => {
+		it('should not filter the array of strings if filterable is false', () => {
 			const vm = new Vue({
-				template: `<div><v-select ref="select" :filter-options="false" :options="['foo','bar','baz']" v-model="value"></v-select></div>`,
+				template: `<div><v-select ref="select" :filterable="false" :options="['foo','bar','baz']" v-model="value"></v-select></div>`,
 				data: {value: 'foo'}
 			}).$mount()
 			vm.$refs.select.search = 'ba'
@@ -897,9 +897,9 @@ describe('Select.vue', () => {
 			expect(vm.$children[0].mutableOptions).toEqual(['one', 'two', 'three'])
 		})
 
-		it('should add a freshly created option/tag to the options list when pushTags is true and filterOptions is false', () => {
+		it('should add a freshly created option/tag to the options list when pushTags is true and filterable is false', () => {
 			const vm = new Vue({
-				template: '<div><v-select :options="options" push-tags :value="value" :filter-options="false" :multiple="true" :taggable="true"></v-select></div>',
+				template: '<div><v-select :options="options" push-tags :value="value" :filterable="false" :multiple="true" :taggable="true"></v-select></div>',
 				components: {vSelect},
 				data: {
 					value: ['one'],
@@ -926,9 +926,9 @@ describe('Select.vue', () => {
 			expect(vm.$children[0].mutableOptions).toEqual(['one', 'two'])
 		})
 
-		it('wont add a freshly created option/tag to the options list when pushTags is false and filterOptions is false', () => {
+		it('wont add a freshly created option/tag to the options list when pushTags is false and filterable is false', () => {
 			const vm = new Vue({
-				template: '<div><v-select :options="options" :value="value" :multiple="true" :filter-options="false" :taggable="true"></v-select></div>',
+				template: '<div><v-select :options="options" :value="value" :multiple="true" :filterable="false" :taggable="true"></v-select></div>',
 				components: {vSelect},
 				data: {
 					value: ['one'],
@@ -985,7 +985,7 @@ describe('Select.vue', () => {
 		it('should select an existing option if the search string matches an objects label from options when filter-options is false', (done) => {
 			let two = {label: 'two'}
 			const vm = new Vue({
-				template: '<div><v-select :options="options" taggable :filter-options="false"></v-select></div>',
+				template: '<div><v-select :options="options" taggable :filterable="false"></v-select></div>',
 				data: {
 					options: [{label: 'one'}, two]
 				}
@@ -1020,9 +1020,9 @@ describe('Select.vue', () => {
 			})
 		})
 
-		it('should not reset the selected value when the options property changes when filterOptions is false', (done) => {
+		it('should not reset the selected value when the options property changes when filterable is false', (done) => {
 			const vm = new Vue({
-				template: '<div><v-select :options="options" :value="value" :multiple="true" :filter-options="false" taggable></v-select></div>',
+				template: '<div><v-select :options="options" :value="value" :multiple="true" :filterable="false" taggable></v-select></div>',
 				components: {vSelect},
 				data: {
 					value: [{label: 'one'}],
