@@ -521,6 +521,17 @@
       },
 
       /**
+       * When true, existing options will be filtered
+       * by the search text. Should not be used in conjunction
+       * with taggable.
+       * @type {Boolean}
+       */
+      filterOptions: {
+        type: Boolean,
+        default: true
+      },
+
+      /**
        * User defined function for adding Options
        * @type {Function}
        */
@@ -904,6 +915,9 @@
        * @return {array}
        */
       filteredOptions() {
+        if (!this.filterOptions && !this.taggable) {
+          return this.mutableOptions.slice()
+        }
         let options = this.mutableOptions.filter((option) => {
           if (typeof option === 'object' && option.hasOwnProperty(this.label)) {
             return option[this.label].toLowerCase().indexOf(this.search.toLowerCase()) > -1
