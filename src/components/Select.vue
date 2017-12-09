@@ -526,7 +526,7 @@
        * with taggable.
        * @type {Boolean}
        */
-      filterOptions: {
+      filterable: {
         type: Boolean,
         default: true
       },
@@ -915,7 +915,7 @@
        * @return {array}
        */
       filteredOptions() {
-        if (!this.filterOptions && !this.taggable) {
+        if (!this.filterable && !this.taggable) {
           return this.mutableOptions.slice()
         }
         let options = this.mutableOptions.filter((option) => {
