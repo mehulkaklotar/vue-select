@@ -1,6 +1,6 @@
 import ajax from './ajax'
 import pointer from './typeAheadPointer'
 import pointerScroll from './pointerScroll'
-import offset from './domHelpers'
+import domHelpers from './domHelpers'
 
-export default { ajax, pointer, pointerScroll, offset }
+export default { ajax, pointer, pointerScroll, domHelpers }
