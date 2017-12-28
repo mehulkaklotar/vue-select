@@ -60,5 +60,24 @@ module.exports = {
       targetElement.style.top = `${offset.top + baseElement.offsetHeight - 1}px`
       targetElement.classList.remove(aboveCssClass)
     }
+  },
+
+  /**
+   * Get a scrollable elements that is parent of the target element.
+   * @param {HTMLElement} targetElement.
+   * @return {Array<HTMLElement>} array of scrollable DOM elements.
+   */
+  getScrollableElements(targetElement) {
+    const elements = []
+    let el = targetElement.parentElement
+
+    while (el && el.tagName !== "HTML") {
+      if (el.offsetHeight < el.scrollHeight) {
+        elements.push(el)
+      }
+      el = el.parentElement
+    }
+
+    return elements
   }
 }

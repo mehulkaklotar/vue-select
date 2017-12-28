@@ -670,6 +670,47 @@
       this.$on('option:created', this.maybePushTag)
     },
 
+    /**
+     * Set on scroll listener.
+     */
+    mounted() {
+      const elements = domHelpers.getScrollableElements(this.$el)
+
+      if (!this.scrollHandler && elements.length) {
+        this.scrollHandler = () => {
+          if (this.open) {
+            // on scroll close the dropdown
+            this.open = false
+          }
+        }
+        if (typeof window === 'object') {
+          window.document.addEventListener('scroll', this.scrollHandler)
+        }
+
+        elements.forEach((el) => {
+          // set handler on scroll event to close the dropdown
+          el.addEventListener('scroll', this.scrollHandler)
+        })
+        // save element and handler to remove event on the component destroy
+        this.subscribedElements = elements
+      }
+    },
+
+    /**
+     * Before destroy lifecycle event handler.
+     * Remove scroll event handlers.
+     */
+    beforeDestroy() {
+      if (this.scrollHandler) {
+        if (typeof window === 'object') {
+          window.document.removeEventListener('scroll', this.scrollHandler)
+        }
+        this.subscribedElements.forEach((el) => {
+          el.removeEventListener('scroll', this.scrollHandler)
+        })
+      }
+    },
+
     methods: {
 
       /**
