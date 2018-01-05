@@ -14,18 +14,18 @@ Vue.config.devtools = true
 new Vue({
   el: '#app',
   data: {
-    placeholder: 'placeholder',
+    placeholder: "placeholder",
     value: null,
     options: countries,
     ajaxRes: [],
     people: []
   },
   methods: {
-    search (search, loading) {
+    search(search, loading) {
       loading(true)
       this.getRepositories(search, loading, this)
     },
-    searchPeople (search, loading) {
+    searchPeople(search, loading) {
       loading(true)
       this.getPeople(loading, this)
     },

@@ -1,12 +1,12 @@
 module.exports = {
-  data () {
+  data() {
     return {
       typeAheadPointer: -1
     }
   },
 
   watch: {
-    filteredOptions () {
+    filteredOptions() {
       this.typeAheadPointer = 0
     }
   },
@@ -17,10 +17,10 @@ module.exports = {
      * subtracting the current index by one.
      * @return {void}
      */
-    typeAheadUp () {
+    typeAheadUp() {
       if (this.typeAheadPointer > 0) {
         this.typeAheadPointer--
-        if (this.maybeAdjustScroll) {
+        if( this.maybeAdjustScroll ) {
           this.maybeAdjustScroll()
         }
       }
@@ -31,10 +31,10 @@ module.exports = {
      * adding the current index by one.
      * @return {void}
      */
-    typeAheadDown () {
+    typeAheadDown() {
       if (this.typeAheadPointer < this.filteredOptions.length - 1) {
         this.typeAheadPointer++
-        if (this.maybeAdjustScroll) {
+        if( this.maybeAdjustScroll ) {
           this.maybeAdjustScroll()
         }
       }
@@ -45,16 +45,16 @@ module.exports = {
      * Optionally clear the search input on selection.
      * @return {void}
      */
-    typeAheadSelect () {
-      if (this.filteredOptions[ this.typeAheadPointer ]) {
-        this.select(this.filteredOptions[this.typeAheadPointer])
-      } else if (this.taggable && this.search.length) {
+    typeAheadSelect() {
+      if( this.filteredOptions[ this.typeAheadPointer ] ) {
+        this.select( this.filteredOptions[ this.typeAheadPointer ] );
+      } else if (this.taggable && this.search.length){
         this.select(this.search)
       }
 
-      if (this.clearSearchOnSelect) {
-        this.search = ''
+      if( this.clearSearchOnSelect ) {
+        this.search = "";
       }
-    }
+    },
   }
 }
