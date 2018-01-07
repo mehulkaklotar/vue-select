@@ -190,6 +190,9 @@
   .v-select.unsearchable input[type="search"] {
     opacity: 0;
   }
+  .v-select.unsearchable input[type="search"]:hover {
+    cursor: pointer;
+  }
     /* List Items */
   .v-select li {
     line-height: 1.42857143; /* Normalize line height */
