@@ -186,10 +186,11 @@
     background: none;
     position: relative;
     box-shadow: none;
-    float: left;
-    clear: none;
   }
-  /* List Items */
+  .v-select.unsearchable input[type="search"] {
+    opacity: 0;
+  }
+    /* List Items */
   .v-select li {
     line-height: 1.42857143; /* Normalize line height */
   }
