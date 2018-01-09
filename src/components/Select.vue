@@ -88,7 +88,7 @@
   /* Clear Button */
   .v-select .dropdown-toggle .clear {
     position: absolute;
-    bottom: 7px;
+    bottom: 9px;
     right: 30px;
     font-size: 23px;
     font-weight: 700;
