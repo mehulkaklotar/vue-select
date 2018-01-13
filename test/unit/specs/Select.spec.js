@@ -350,6 +350,18 @@ describe('Select.vue', () => {
       vm.$refs.select.search = 'a'
       expect(JSON.stringify(vm.$refs.select.filteredOptions)).toEqual(JSON.stringify(['bar','baz']))
 		})
+
+		it('can filter arrays of numbers', () => {
+      const vm = new Vue({
+        template: `<div><v-select ref="select" :options="options"></v-select></div>`,
+        data: {
+        	options: [1,5,10],
+        	value: 'foo'
+				},
+      }).$mount()
+      vm.$refs.select.search = '5'
+      expect(JSON.stringify(vm.$refs.select.filteredOptions)).toEqual(JSON.stringify([5]))
+		})
 	})
 
 	describe('Toggling Dropdown', () => {
