@@ -322,7 +322,7 @@ describe('Select.vue', () => {
 			expect(JSON.stringify(vm.$refs.select.filteredOptions)).toEqual(JSON.stringify([{label: 'Bar', value: 'bar'}, {label: 'Baz', value: 'baz'}]))
 		})
 
-		it('can use a custom filterFunction passed via props', ()=>{
+		it('can determine if a given option should match the current search text', () => {
 			const vm = new Vue({
 				template: `<div><v-select ref="select" :filterFunction="customFn" :options="[{label: 'Aoo', value: 'foo'}, {label: 'Bar', value: 'bar'}, {label: 'Baz', value: 'baz'}]" v-model="value"></v-select></div>`,
 				data: {value: 'foo'},
@@ -332,6 +332,23 @@ describe('Select.vue', () => {
 			}).$mount()
 			vm.$refs.select.search = 'a'
 			expect(JSON.stringify(vm.$refs.select.filteredOptions)).toEqual(JSON.stringify([{label: 'Aoo', value: 'foo'}]))
+		})
+
+		it('can use a custom filtering method', () => {
+      const vm = new Vue({
+        template: `<div><v-select ref="select" :filter="customFn" :options="options" v-model="value"></v-select></div>`,
+        data: {
+        	options: ['foo','bar','baz'],
+        	value: 'foo'
+				},
+        methods:{
+          customFn(options, search, vm) {
+          	return options.filter(option => option.indexOf(search) > 0)
+					}
+        }
+      }).$mount()
+      vm.$refs.select.search = 'a'
+      expect(JSON.stringify(vm.$refs.select.filteredOptions)).toEqual(JSON.stringify(['bar','baz']))
 		})
 	})
 
@@ -780,6 +797,7 @@ describe('Select.vue', () => {
 			const vm = new Vue({
 				template: '<div><v-select :options="[{}]"></v-select></div>',
 			}).$mount()
+			vm.$children[0].open = true
 			Vue.nextTick(() => {
 				expect(console.warn).toHaveBeenCalledWith(
 						'[vue-select warn]: Label key "option.label" does not exist in options object {}.' +

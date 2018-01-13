@@ -40,17 +40,21 @@
         <v-select placeholder="search github.." label="full_name" @search="search" :options="ajaxRes"></v-select>
         <v-select placeholder="custom option template" :options="options" multiple>
             <template slot="selected-option" scope="option">
-                <img :src='"https://www.kidlink.org/icons/f0-" + option.value.toLowerCase() + ".gif"'/> 
                 {{option.label}}
             </template>
             <template slot="option" scope="option">
-                <img :src='"https://www.kidlink.org/icons/f0-" + option.value.toLowerCase() + ".gif"'/> 
                 {{option.label}} ({{option.value}})
             </template>
         </v-select>
         <v-select placeholder="disabled" disabled  value="disabled"></v-select>
-        <v-select placeholder="disabled multiple" disabled multiple  :value="['disabled', 'multiple']"></v-select>
+        <v-select placeholder="disabled multiple" disabled multiple :value="['disabled', 'multiple']"></v-select>
         <v-select placeholder="filterable=false, @search=searchPeople" label="first_name" :filterable="false" @search="searchPeople" :options="people"></v-select>
+        <v-select placeholder="filtering with fuse.js" label="title" :options="fuseSearchOptions" :filter="fuseSearch">
+            <template slot="option" scope="option">
+                <strong>{{ option.title }}</strong><br>
+                <em>{{ `${option.author.firstName} ${option.author.lastName}` }}</em>
+            </template>
+        </v-select>
     </div>
 </body>
 

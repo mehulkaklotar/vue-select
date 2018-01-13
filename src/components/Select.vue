@@ -523,34 +523,6 @@
       },
 
       /**
-       * Callback to filter the search result the label text.
-       * @type   {Function}
-       * @param  {Object || String} option
-       * @param  {String} label
-       * @param  {String} search
-       * @return {Boolean}
-       */
-      filterFunction: {
-        type: Function,
-        default(option, label, search) {
-          return (label || '').toLowerCase().indexOf(search.toLowerCase()) > -1
-        }
-      },
-
-      filter: {
-        "type": Function,
-        default(vm) {
-          return vm.mutableOptions.filter((option) => {
-            let label = vm.getOptionLabel(option)
-            if (typeof label === 'number') {
-              label = label.toString()
-            }
-            return this.filterFunction(option, label, vm.search)
-          });
-        }
-      },
-
-      /**
        * An optional callback function that is called each time the selected
        * value(s) change. When integrating with Vuex, use this callback to trigger
        * an action, rather than using :value.sync to retreive the selected value.
@@ -601,6 +573,44 @@
       filterable: {
         type: Boolean,
         default: true
+      },
+
+      /**
+       * Callback to determine if the provided option
+       * should match the current search text.
+       * @type   {Function}
+       * @param  {Object || String} option
+       * @param  {String} label
+       * @param  {String} search
+       * @return {Boolean}
+       */
+      filterComparator: {
+        type: Function,
+        default(option, label, search) {
+          return (label || '').toLowerCase().indexOf(search.toLowerCase()) > -1
+        }
+      },
+
+      /**
+       * Callback to filter results when
+       * search text is provided.
+       * @type   {Function}
+       * @param  {Array} list of options
+       * @param  {String} search text
+       * @param  {Object} vSelect instance
+       * @return {Boolean}
+       */
+      filter: {
+        "type": Function,
+        default(options, search) {
+          return options.filter((option) => {
+            let label = this.getOptionLabel(option)
+            if (typeof label === 'number') {
+              label = label.toString()
+            }
+            return this.filterComparator(option, label, search)
+          });
+        }
       },
 
       /**
@@ -995,8 +1005,11 @@
        * @return {array}
        */
       filteredOptions() {
-        let options = this.search.length ? this.filter(this) : this.mutableOptions;
-        if (this.taggable && !this.optionExists(this.search)) {
+        if (!this.filterable && !this.taggable) {
+          return this.mutableOptions.slice()
+        }
+        let options = this.search.length ? this.filter(this.mutableOptions, this.search, this) : this.mutableOptions;
+        if (this.taggable && this.search.length && !this.optionExists(this.search)) {
           options.unshift(this.search)
         }
         return options
