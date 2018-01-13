@@ -593,8 +593,10 @@
       },
 
       /**
-       * Callback to filter results when
-       * search text is provided.
+       * Callback to filter results when search text
+       * is provided. Default implementation loops
+       * each option, and returns the result of
+       * this.filterMatch. 
        * @type   {Function}
        * @param  {Array} list of options
        * @param  {String} search text
