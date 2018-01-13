@@ -4,7 +4,7 @@
 import Vue from 'vue'
 import vSelect from 'src/components/Select.vue'
 import pointerScroll from 'src/mixins/pointerScroll.js'
-
+Vue.config.productionTip = false
 //  http://vue-loader.vuejs.org/en/workflow/testing-with-mocks.html
 const Mock = require('!!vue?inject!src/components/Select.vue')
 
@@ -320,6 +320,18 @@ describe('Select.vue', () => {
 			}).$mount()
 			vm.$refs.select.search = 'ba'
 			expect(JSON.stringify(vm.$refs.select.filteredOptions)).toEqual(JSON.stringify([{label: 'Bar', value: 'bar'}, {label: 'Baz', value: 'baz'}]))
+		})
+
+		it('can use a custom filterFunction passed via props', ()=>{
+			const vm = new Vue({
+				template: `<div><v-select ref="select" :filterFunction="customFn" :options="[{label: 'Aoo', value: 'foo'}, {label: 'Bar', value: 'bar'}, {label: 'Baz', value: 'baz'}]" v-model="value"></v-select></div>`,
+				data: {value: 'foo'},
+				methods:{
+					customFn: (option, label, search) => label.match(new RegExp('^' + search, 'i'))
+				}
+			}).$mount()
+			vm.$refs.select.search = 'a'
+			expect(JSON.stringify(vm.$refs.select.filteredOptions)).toEqual(JSON.stringify([{label: 'Aoo', value: 'foo'}]))
 		})
 	})
 
@@ -770,7 +782,7 @@ describe('Select.vue', () => {
 			}).$mount()
 			Vue.nextTick(() => {
 				expect(console.warn).toHaveBeenCalledWith(
-						'[vue-select warn]: Label key "option.label" does not exist in options object.' +
+						'[vue-select warn]: Label key "option.label" does not exist in options object {}.' +
 						'\nhttp://sagalbot.github.io/vue-select/#ex-labels'
 				)
 				done()
@@ -1266,11 +1278,11 @@ describe('Select.vue', () => {
 					options: ['one', 'two', 'three']
 				}
 			}).$mount()
-			
+
 			vm.$children[0].open = true
 			vm.$refs.select.search = "t"
 			expect(vm.$refs.select.search).toEqual('t')
-			
+
 			vm.$children[0].onSearchBlur()
 			Vue.nextTick(() => {
 				expect(vm.$refs.select.search).toEqual('')
