@@ -576,15 +576,16 @@
       },
 
       /**
-       * Callback to determine if the provided option
-       * should match the current search text.
+       * Callback to determine if the provided option should
+       * match the current search text. Used to determine
+       * if the option should be displayed.
        * @type   {Function}
        * @param  {Object || String} option
        * @param  {String} label
        * @param  {String} search
        * @return {Boolean}
        */
-      filterComparator: {
+      filterMatch: {
         type: Function,
         default(option, label, search) {
           return (label || '').toLowerCase().indexOf(search.toLowerCase()) > -1
@@ -608,7 +609,7 @@
             if (typeof label === 'number') {
               label = label.toString()
             }
-            return this.filterComparator(option, label, search)
+            return this.filterMatch(option, label, search)
           });
         }
       },
