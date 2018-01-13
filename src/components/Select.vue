@@ -499,6 +499,19 @@
         }
       },
 
+      filter: {
+        "type": Function,
+        default(vm) {
+          return vm.mutableOptions.filter((option) => {
+            let label = vm.getOptionLabel(option)
+            if (typeof label === 'number') {
+              label = label.toString()
+            }
+            return this.filterFunction(option, label, vm.search)
+          });
+        }
+      },
+
       /**
        * An optional callback function that is called each time the selected
        * value(s) change. When integrating with Vuex, use this callback to trigger
@@ -916,14 +929,8 @@
        * @return {array}
        */
       filteredOptions() {
-        let options = this.mutableOptions.filter((option) => {
-          let label = this.getOptionLabel(option)
-          if (typeof label === 'number') {
-            label = label.toString()
-          }
-          return this.filterFunction(option, label, this.search)
-        })
-        if (this.taggable && this.search.length && !this.optionExists(this.search)) {
+        let options = this.search.length ? this.filter(this) : this.mutableOptions;
+        if (this.taggable && !this.optionExists(this.search)) {
           options.unshift(this.search)
         }
         return options
