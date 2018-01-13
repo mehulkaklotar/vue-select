@@ -324,7 +324,7 @@ describe('Select.vue', () => {
 
 		it('can determine if a given option should match the current search text', () => {
 			const vm = new Vue({
-				template: `<div><v-select ref="select" :filter-match="customFn" :options="[{label: 'Aoo', value: 'foo'}, {label: 'Bar', value: 'bar'}, {label: 'Baz', value: 'baz'}]" v-model="value"></v-select></div>`,
+				template: `<div><v-select ref="select" :filter-by="customFn" :options="[{label: 'Aoo', value: 'foo'}, {label: 'Bar', value: 'bar'}, {label: 'Baz', value: 'baz'}]" v-model="value"></v-select></div>`,
 				data: {value: 'foo'},
 				methods:{
 					customFn: (option, label, search) => label.match(new RegExp('^' + search, 'i'))

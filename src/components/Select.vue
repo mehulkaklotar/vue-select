@@ -585,7 +585,7 @@
        * @param  {String} search
        * @return {Boolean}
        */
-      filterMatch: {
+      filterBy: {
         type: Function,
         default(option, label, search) {
           return (label || '').toLowerCase().indexOf(search.toLowerCase()) > -1
@@ -596,7 +596,7 @@
        * Callback to filter results when search text
        * is provided. Default implementation loops
        * each option, and returns the result of
-       * this.filterMatch. 
+       * this.filterBy.
        * @type   {Function}
        * @param  {Array} list of options
        * @param  {String} search text
@@ -611,7 +611,7 @@
             if (typeof label === 'number') {
               label = label.toString()
             }
-            return this.filterMatch(option, label, search)
+            return this.filterBy(option, label, search)
           });
         }
       },
