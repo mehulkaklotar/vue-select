@@ -2,7 +2,7 @@
 
 - [Introduction](README.md)
 - [Installation](Install.md)
-  - [npm](Install.md#npm)
+  - [npm/yarn](Install.md#npm)
   - [cdn](Install.md#cdn)
 - [Getting Started](Basics.md)
   - [Dropdown Options](Basics/Options.md)
@@ -14,7 +14,7 @@
 - [Localization](Basics/Localization.md)
 
 - Digging Deeper
-  - [Templating](Basics.md#options)
+  - [Templating](Advanced/Templating.md)
   - [Vuex](Basics.md#options)
   - [AJAX](Basics.md#options)
   - [Mixins](Basics.md#options)
@@ -22,6 +22,6 @@
   - [Examples](Examples.md)
 
 - API
-- [Props](Props/Props.md)
-- Events
-- Slots
+- [Props](Api/Props.md)
+- [Events](Api/Events.md)
+- [Slots](Api/Slots.md)

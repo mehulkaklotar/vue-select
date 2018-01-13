@@ -1,6 +1,7 @@
 {
   "title": "vue-select",
   "gitbook": ">3.0.0",
+  "root": "./docs/gitbook",
   "plugins": ["edit-link", "-fontsettings", "github", "codepen"],
   "pluginsConfig": {
     "edit-link": {
