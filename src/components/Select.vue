@@ -313,7 +313,7 @@
     <div ref="toggle" @mousedown.prevent="toggleDropdown" :class="['dropdown-toggle', 'clearfix']">
 
       <slot v-for="option in valueAsArray" name="selected-option-container"
-            :option="option" :deselect="deselect">
+            :option="option" :deselect="deselect" :multiple="multiple" :disabled="disabled">
         <span class="selected-tag" v-bind:key="option.index">
           <slot name="selected-option" v-bind="option">
             {{ getOptionLabel(option) }}

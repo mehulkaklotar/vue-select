@@ -46,6 +46,19 @@
                 {{option.label}} ({{option.value}})
             </template>
         </v-select>
+        <v-select multiple placeholder="custom label template" :options="options">
+            <span
+                    slot="selected-option-container"
+                    slot-scope="props"
+                    class="selected-tag"
+            >
+                {{ props.option.label }} ({{ props.option.value }})
+              <button v-if="props.multiple" @click="props.deselect(props.option)" type="button" class="close" aria-label="Remove option">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </span>
+        </v-select>
+
         <v-select placeholder="disabled" disabled  value="disabled"></v-select>
         <v-select placeholder="disabled multiple" disabled multiple  :value="['disabled', 'multiple']"></v-select>
         <v-select placeholder="filterable=false, @search=searchPeople" label="first_name" :filterable="false" @search="searchPeople" :options="people"></v-select>
