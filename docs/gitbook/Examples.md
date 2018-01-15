@@ -1,19 +1,4 @@
-- [HTML5 Validation](#validation)
-- [Vuex](#vuex)
-- [AJAX](#ajax)
-- [Dependent vSelects](#dependent)
-- [Custom Component with Mixins](#customComponent)
+### Codepen Collection
 
-## HTML5 Validation {#validation}
-
-
-
-## Vuex {#vuex}
-
-[](codepen://sagalbot/aJQJyp?height=500)
-
-## AJAX {#ajax}
-
-## Dependent vSelects {#dependent}
-
-## Custom Component with Mixins {#customComponent}
+I've put together a collection of examples, including all the examples 
+from this documentation site on [Codepen](https://codepen.io/collection/nrkgxV/#).

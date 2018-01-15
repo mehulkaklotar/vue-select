@@ -1,18 +1,16 @@
-### Change Event <small>Vuex Compatibility</small>
+### Using the `input` Event with Vuex
 
-`vue-select` provides a `change` event. This function is passed the currently selected value(s) as it's only parameter.
-
-This is very useful when integrating with Vuex, as it will allow your to trigger an action to update your vuex state object. Choose a callback and see it in action.
-
+`vue-select` emits the `input` event any time the internal `value` is changed. 
+This is the same event that allow the for the `v-model` syntax. When using
+Vuex for state management, you can use the `input` event to dispatch an
+action, or trigger a mutation.
 
 ```html
-<v-select v-on:change="consoleCallback" :options="countries"></v-select>
-```
+<v-select 
+    @input="myAction" 
+    :options="$store.state.options"
+    :value="$store.state.selected"
+  ></v-select>
+``` 
 
-```js
-methods: {
-  consoleCallback(val) {
-    console.dir(JSON.stringify(val))
-  },
-}
-```
+[](codepen://sagalbot/aJQJyp?height=500)

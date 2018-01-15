@@ -12,10 +12,9 @@
 
 - Digging Deeper
 - [Templating](Advanced/Templating.md)
-- [Vuex](Basics.md#options)
-- [AJAX](Basics.md#options)
-- [Mixins](Basics.md#options)
-- [Validation](Basics.md#options)
+- [Vuex](Advanced/Vuex.md)
+- [AJAX](Advanced/Ajax.md)
+- [Validation](Advanced/Validation.md)
 - [Examples](Examples.md)
 
 - API
