@@ -13,7 +13,7 @@
     "dev:docs": "gitbook serve",
     "build": "node build/build.js",
     "build:homepage": "node build/build.js --homepage",
-    "build:docs": "gitbook build",
+    "build:docs": "yarn run build:homepage && node build/build-docs.js",
     "lint": "eslint --ext .js,.vue src test/unit/specs",
     "test": "karma start test/unit/karma.conf.js --single-run",
     "test-watch": "karma start test/unit/karma.conf.js --single-run=false --auto-watch=true"

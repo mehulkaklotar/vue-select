@@ -7,3 +7,4 @@ test/unit/coverage
 .flowconfig
 docs/gitbook/_book
 docs/node_modules
+site

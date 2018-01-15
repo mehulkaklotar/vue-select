@@ -77,3 +77,7 @@ exports.styleLoaders = function (options) {
 exports.shouldServeHomepage = function () {
   return process.argv.indexOf('--docs') > 0
 }
+
+exports.shouldBuildHomepage = function () {
+  return process.argv.indexOf('--homepage') > 0
+}
