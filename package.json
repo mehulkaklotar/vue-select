@@ -10,8 +10,10 @@
     "start": "npm run dev",
     "dev": "node build/dev-server.js",
     "dev:homepage": "node build/dev-server.js --docs",
-    "dev:docs": "gitbook serve docs/gitbook",
+    "dev:docs": "gitbook serve",
     "build": "node build/build.js",
+    "build:homepage": "node build/build.js --homepage",
+    "build:docs": "gitbook build",
     "lint": "eslint --ext .js,.vue src test/unit/specs",
     "test": "karma start test/unit/karma.conf.js --single-run",
     "test-watch": "karma start test/unit/karma.conf.js --single-run=false --auto-watch=true"
