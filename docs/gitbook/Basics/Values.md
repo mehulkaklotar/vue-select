@@ -1,4 +1,4 @@
-## Selecting Values {#values}
+## Selecting Values {#single}
 
 The most common use case for `vue-select` is to have the chosen value synced with a parent component. `vue-select` takes advantage of the `v-model` syntax to sync values with a parent.
 
@@ -25,3 +25,14 @@ By default, `vue-select` supports choosing a single value. If you need multiple 
 ```
 
 [](codepen://sagalbot/opMGro?height=250)
+
+### Tagging {#tagging}
+
+To allow input that's not present within the options, set the `taggable` prop to true.
+If you want new tags to be pushed to the options list, set `push-tags` to true.
+
+```html
+<v-select taggable></v-select>
+```
+
+[](codepen://sagalbot/NpwrQO?height=250)

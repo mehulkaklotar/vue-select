@@ -6,18 +6,16 @@
 	- [Option Labels](Basics/Options.md#labels)
 	- [Null Options](Basics/Options.md#null)
 - [Selecting Values](Basics/Values.md#values)
-	- [Tagging](Basics/Values.md#tagging)
+	- [Single](Basics/Values.md#single)
 	- [Multiple](Basics/Values.md#multiple)
+	- [Tagging](Basics/Values.md#tagging)
 - [Localization](Basics/Localization.md)
 
 - Digging Deeper
 - [Templating](Advanced/Templating.md)
 - [Vuex](Advanced/Vuex.md)
 - [AJAX](Advanced/Ajax.md)
-- [Validation](Advanced/Validation.md)
 - [Examples](Examples.md)
 
 - API
 - [Props](Api/Props.md)
-- [Events](Api/Events.md)
-- [Slots](Api/Slots.md)
