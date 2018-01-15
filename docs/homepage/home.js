@@ -11,21 +11,22 @@ new Vue({
   data() {
     return {
       loading: false,
+      selected: null,
       options: [
         {
           title: 'Read the Docs',
           icon: 'octicon-book',
-          url: 'https://codeclimate.com/github/sagalbot/vue-select'
+          url: '/docs/'
         },
         {
           title: 'View on GitHub',
           icon: 'octicon-mark-github',
-          url: 'https://codeclimate.com/github/sagalbot/vue-select'
+          url: 'https://github.com/sagalbot/vue-select'
         },
         {
           title: 'View on NPM',
           icon: 'octicon-database',
-          url: 'https://codeclimate.com/github/sagalbot/vue-select'
+          url: 'https://www.npmjs.com/package/vue-select'
         },
         {
           title: 'View Code Climate Analysis',
@@ -35,18 +36,9 @@ new Vue({
         {
           title: 'View Codepen Examples',
           icon: 'octicon-pencil',
-          url: 'https://codeclimate.com/github/sagalbot/vue-select'
+          url: 'https://codepen.io/collection/nrkgxV/'
         },
       ]
-    }
-  },
-  methods: {
-    onInput(option) {
-      this.loading = true;
-      this.go(option.url);
-    },
-    go(url) {
-      window.location = url;
     }
   }
 });

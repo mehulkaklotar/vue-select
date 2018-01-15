@@ -30,46 +30,6 @@
 <body>
 <div id="app">
 
-    <div class="overlay" :class="{ active: loading }" v-cloak v-show="loading">
-        <!-- By Sam Herbert (@sherb), for everyone. More @ http://goo.gl/7AJzbL -->
-        <svg width="44" height="44" viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg" stroke="#fff">
-            <g fill="none" fill-rule="evenodd" stroke-width="2">
-                <circle cx="22" cy="22" r="1">
-                    <animate attributeName="r"
-                             begin="0s" dur="1.8s"
-                             values="1; 20"
-                             calcMode="spline"
-                             keyTimes="0; 1"
-                             keySplines="0.165, 0.84, 0.44, 1"
-                             repeatCount="indefinite" />
-                    <animate attributeName="stroke-opacity"
-                             begin="0s" dur="1.8s"
-                             values="1; 0"
-                             calcMode="spline"
-                             keyTimes="0; 1"
-                             keySplines="0.3, 0.61, 0.355, 1"
-                             repeatCount="indefinite" />
-                </circle>
-                <circle cx="22" cy="22" r="1">
-                    <animate attributeName="r"
-                             begin="-0.9s" dur="1.8s"
-                             values="1; 20"
-                             calcMode="spline"
-                             keyTimes="0; 1"
-                             keySplines="0.165, 0.84, 0.44, 1"
-                             repeatCount="indefinite" />
-                    <animate attributeName="stroke-opacity"
-                             begin="-0.9s" dur="1.8s"
-                             values="1; 0"
-                             calcMode="spline"
-                             keyTimes="0; 1"
-                             keySplines="0.3, 0.61, 0.355, 1"
-                             repeatCount="indefinite" />
-                </circle>
-            </g>
-        </svg>
-    </div>
-
     <h1>Vue Select</h1>
 
     <p class="accolades lead">
@@ -98,45 +58,55 @@
         to Select2/Chosen without the overhead of jQuery.
     </p>
 
-    <v-select @input="onInput" id="v-select" :options="options" label="title">
+    <v-select id="v-select" :options="options" v-model="selected" label="title">
         <template slot="option" slot-scope="option">
             <span class="octicon" :class="option.icon"></span>
             {{ option.title }}
         </template>
     </v-select>
 
-    <div class="feature-list">
-        <ul class="list-vue">
-            <li>Supports Vuex</li>
-            <li>Tagging Support</li>
-            <li>Custom Templating</li>
-            <li>Zero JS/CSS dependencies</li>
-            <li>Custom Filtering Algoirthms</li>
-        </ul>
-
-        <ul class="list-vue">
-            <li>+95% Test Coverage</li>
-            <li>Select Single/Multiple</li>
-            <li>Typeahead Suggestions</li>
-            <li>Supports RTL & Translations</li>
-            <li>Plays nice with CSS Frameworks</li>
-        </ul>
-    </div>
-
-    <p>
-        And so much more! Get started with: <br>
-        <code>yarn add vue-select</code>
-    </p>
-
-    <div class="cta">
-        <a class="btn btn-primary btn-outline btn-lg" href="https://github.com/sagalbot/vue-select">
-            <span class="octicon octicon-mark-github"></span> View on GitHub
-        </a>
-
-        <a class="btn btn-primary btn-outline btn-lg" href="https://github.com/sagalbot/vue-select/docs/">
-            <span class="octicon octicon-book"></span> Read the Docs
+    <div v-cloak v-if="!! selected" class="dropdown-action">
+        <a class="btn btn-primary btn-outline btn-lg" :href="selected.url">
+            <span class="octicon" :class="selected.icon"></span>
+            {{ selected.title }}
         </a>
     </div>
+
+    <section class="content" :class="{ hidden: selected }">
+
+        <div class="feature-list">
+            <ul class="list-vue">
+                <li>Supports Vuex</li>
+                <li>Tagging Support</li>
+                <li>Custom Templating</li>
+                <li>Zero JS/CSS dependencies</li>
+                <li>Custom Filtering Algoirthms</li>
+            </ul>
+
+            <ul class="list-vue">
+                <li>+95% Test Coverage</li>
+                <li>Select Single/Multiple</li>
+                <li>Typeahead Suggestions</li>
+                <li>Supports RTL & Translations</li>
+                <li>Plays nice with CSS Frameworks</li>
+            </ul>
+        </div>
+
+        <p>
+            And so much more! Get started with: <br>
+            <code>yarn add vue-select</code>
+        </p>
+
+        <div class="cta">
+            <a class="btn btn-primary btn-outline btn-lg" href="https://github.com/sagalbot/vue-select">
+                <span class="octicon octicon-mark-github"></span> View on GitHub
+            </a>
+
+            <a class="btn btn-primary btn-outline btn-lg" href="/docs/">
+                <span class="octicon octicon-book"></span> Read the Docs
+            </a>
+        </div>
+    </section>
 
 </div>
 <script>
