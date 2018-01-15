@@ -23,7 +23,7 @@ module.exports = {
     entry: './docs/homepage/home.js',
     assetsRoot: path.resolve(__dirname, '../site'),
     assetsSubDirectory: '',
-    assetsPublicPath: '/',
+    assetsPublicPath: '',
     productionSourceMap: true
   }
 };

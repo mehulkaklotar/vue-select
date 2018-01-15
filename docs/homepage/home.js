@@ -16,7 +16,7 @@ new Vue({
         {
           title: 'Read the Docs',
           icon: 'octicon-book',
-          url: '/docs/'
+          url: 'docs/'
         },
         {
           title: 'View on GitHub',

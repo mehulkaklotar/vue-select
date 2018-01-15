@@ -14,8 +14,10 @@ var spinner = ora(`building ${text}...`);
 spinner.start();
 
 var assetsPath = path.join(config.build.assetsRoot, config.build.assetsSubDirectory);
-rm('-rf', assetsPath);
-mkdir('-p', assetsPath);
+if (!utils.shouldBuildHomepage()) {
+  rm('-rf', assetsPath);
+  mkdir('-p', assetsPath);
+}
 
 /**
  * Build the /dist/ folder
