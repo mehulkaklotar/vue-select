@@ -6,6 +6,8 @@ The most common use case for `vue-select` is to have the chosen value synced wit
 <v-select v-model="selected"></v-select>
 ```
 
+[](codepen://sagalbot/Kqxbjw?height=250)
+
 If you don't require the `value` to be synced, you can also pass the prop directly:
 
 ```html
@@ -21,3 +23,5 @@ By default, `vue-select` supports choosing a single value. If you need multiple 
 ```html
 <v-select multiple v-model="selected"></v-select>
 ```
+
+[](codepen://sagalbot/opMGro?height=250)

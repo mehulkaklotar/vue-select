@@ -10,7 +10,7 @@
 
 ## Vuex {#vuex}
 
-[](codepen://sagalbot/aJQJyp?height=500&theme=0)
+[](codepen://sagalbot/aJQJyp?height=500)
 
 ## AJAX {#ajax}
 

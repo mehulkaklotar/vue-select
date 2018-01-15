@@ -9,8 +9,8 @@
   "scripts": {
     "start": "npm run dev",
     "dev": "node build/dev-server.js",
-    "dev:docs": "node build/dev-server.js --docs",
-    "docs": "gitbook serve docs/gitbook",
+    "dev:homepage": "node build/dev-server.js --docs",
+    "dev:docs": "gitbook serve docs/gitbook",
     "build": "node build/build.js",
     "lint": "eslint --ext .js,.vue src test/unit/specs",
     "test": "karma start test/unit/karma.conf.js --single-run",

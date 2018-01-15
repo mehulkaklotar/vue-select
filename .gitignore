@@ -5,5 +5,5 @@ npm-debug.log
 test/unit/coverage
 .coveralls.yml
 .flowconfig
-docs/_book
+docs/gitbook/_book
 docs/node_modules

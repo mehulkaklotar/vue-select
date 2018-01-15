@@ -2,12 +2,26 @@
 -  `vue ~2.0` use `vue-select ~2.0`
 -  `vue ~1.0` use `vue-select ~1.0`
 
-## NPM Based WorkFlows
+## Yarn / NPM
+Install with yarn:
 ```bash
-$ npm install vue-select
+yarn add vue-select
+```
+or, using NPM:
+```
+npm install vue-select
 ```
 
-## Browser Globals
+Then, import and register the component:
+
+```js
+import Vue from 'vue'
+import vSelect from './components/Select.vue'
+
+Vue.component('v-select', vSelect)
+```
+
+## CDN
 
 Include `vue` & `vue-select.js` - I recommend using [unpkg.com](https://unpkg.com/#/).
 
@@ -26,4 +40,4 @@ Then register the component in your javascript:
 Vue.component('v-select', VueSelect.VueSelect);
 ```
 
-From there you can use as normal. Here's an [example on JSBin](http://jsbin.com/saxaru/5/edit?html,js,output).
+[](codepen://sagalbot/dJjzeP)

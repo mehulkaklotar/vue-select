@@ -45,12 +45,6 @@ li a {
   font-weight: 600;
 }
 
-/* remove gitbook link and divider */
-.book-summary ul.summary li a.gitbook-link,
-.book-summary ul.summary li:nth-last-child(2) {
-  display: none;
-}
-
 #book-search-input { background-color: #fafafa; }
 .book-summary { background-color: #fff; }
 

@@ -31,6 +31,8 @@ If you wanted to display `Canada` in the dropdown, you'd use the `countryName` k
 <v-select label="countryName" :options="countries"></v-select>
 ```
 
+[](codepen://sagalbot/aEjLPB?height=500)
+
 ### Null / Empty Options {#emptyOptions}
 
 `vue-select` requires the `option` property to be an `array`. If you are using Vue in development mode, you will get warnings attempting to pass anything other than an `array` to the `options` prop. If you need a `null`/`empty` value, use an empty array `[]`.
