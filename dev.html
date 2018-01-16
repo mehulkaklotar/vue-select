@@ -31,6 +31,7 @@
     <div id="app">
         <v-select placeholder="default" :options="options"></v-select>
         <v-select placeholder="default, RTL" :options="options" dir="rtl"></v-select>
+        <v-select placeholder="default, options=[1,5,10]" :options="[1,5,10]"></v-select>
         <v-select placeholder="multiple" multiple :options="options"></v-select>
         <v-select placeholder="multiple, taggable" multiple taggable :options="options" no-drop></v-select>
         <v-select placeholder="multiple, taggable, push-tags" multiple push-tags taggable :options="[{label: 'Foo', value: 'foo'}]"></v-select>
@@ -47,8 +48,14 @@
             </template>
         </v-select>
         <v-select placeholder="disabled" disabled  value="disabled"></v-select>
-        <v-select placeholder="disabled multiple" disabled multiple  :value="['disabled', 'multiple']"></v-select>
+        <v-select placeholder="disabled multiple" disabled multiple :value="['disabled', 'multiple']"></v-select>
         <v-select placeholder="filterable=false, @search=searchPeople" label="first_name" :filterable="false" @search="searchPeople" :options="people"></v-select>
+        <v-select placeholder="filtering with fuse.js" label="title" :options="fuseSearchOptions" :filter="fuseSearch">
+            <template slot="option" scope="option">
+                <strong>{{ option.title }}</strong><br>
+                <em>{{ `${option.author.firstName} ${option.author.lastName}` }}</em>
+            </template>
+        </v-select>
     </div>
 </body>
 
