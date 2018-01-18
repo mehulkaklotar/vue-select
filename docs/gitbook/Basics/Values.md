@@ -35,4 +35,4 @@ If you want new tags to be pushed to the options list, set `push-tags` to true.
 <v-select taggable></v-select>
 ```
 
-[](codepen://sagalbot/NpwrQO?height=250)
+[](codepen://sagalbot/XVoWxm?height=350)
