@@ -12,20 +12,32 @@ The `dir` attribute accepts the same values as the [HTML spec](https://developer
 
 All of the text within the component has been wrapped within [slots](https://vuejs.org/v2/guide/components.html#Content-Distribution-with-Slots) and can be replaced in your app.
 
-
 ##### Loading Spinner
-
+*Slot Definition:*
 ```html
 <slot name="spinner">
 	<div class="spinner" v-show="mutableLoading">Loading...</div>
 </slot>
 ```
+*Implementation:*
+```html
+<v-select>
+	<i slot="spinner" class="icon icon-spinner"></i>
+</v-select>
+```
 
 ##### No Options Text
-
+*Slot Definition:*
 ```html
 <slot name="no-options">Sorry, no matching options.</slot>
 ```
+*Implementation:*
+```html
+<v-select>
+	<span slot="no-options">No Options Here!</div>
+</v-select>
+```
+
 For a full list of component slots, view the [slots API docs](Api/Slots.md).
 
 [](codepen://sagalbot/oZmLVN?height=250)
