@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import vSelect from '../../src/components/Select'
+import vSelect from 'vue-select'
 
 import './assets/scss/home.scss'
 
