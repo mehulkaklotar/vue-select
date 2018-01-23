@@ -117,7 +117,7 @@ describe('Select.vue', () => {
 					options: [{label: 'This is Foo', value: 'foo'}, {label: 'This is Bar', value: 'bar'}]
 				}
 			}).$mount()
-			vm.$children[0].select({label: 'This is Foo', value: 'foo'})
+			vm.$children[0].deselect({label: 'This is Foo', value: 'foo'})
 			expect(vm.$children[0].mutableValue.length).toEqual(1)
 		})
 
@@ -129,7 +129,7 @@ describe('Select.vue', () => {
 					options: ['foo','bar']
 				}
 			}).$mount()
-			vm.$children[0].select('foo')
+			vm.$children[0].deselect('foo')
 			expect(vm.$children[0].mutableValue.length).toEqual(1)
 		}),
 
@@ -1090,7 +1090,7 @@ describe('Select.vue', () => {
 					vm.$refs.select.search = 'one'
 					searchSubmit(vm)
 					Vue.nextTick(() => {
-						expect(vm.$refs.select.mutableValue).toEqual([])
+						expect(vm.$refs.select.mutableValue).toEqual(['one'])
 						expect(vm.$refs.select.search).toEqual('')
 						done()
 					})
@@ -1109,7 +1109,7 @@ describe('Select.vue', () => {
 					vm.$refs.select.search = 'one'
 					searchSubmit(vm)
 					Vue.nextTick(() => {
-						expect(vm.$refs.select.mutableValue).toEqual([])
+						expect(vm.$refs.select.mutableValue).toEqual(['one'])
 						expect(vm.$refs.select.search).toEqual('')
 						done()
 					})
