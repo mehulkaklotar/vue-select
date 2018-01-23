@@ -59,22 +59,14 @@
         to Select2/Chosen without the overhead of jQuery.
     </p>
 
-    <v-select id="v-select" :options="options" v-model="selected" label="title">
+    <v-select id="v-select" :options="options" @input="redirect" label="title">
         <template slot="option" slot-scope="option">
             <span class="octicon" :class="option.icon"></span>
             {{ option.title }}
         </template>
     </v-select>
 
-    <div v-cloak v-if="!! selected" class="dropdown-action">
-        <a class="btn btn-primary btn-outline btn-lg" :href="selected.url">
-            <span class="octicon" :class="selected.icon"></span>
-            {{ selected.title }}
-        </a>
-    </div>
-
-    <section class="content" :class="{ hidden: selected }">
-
+    <section class="content">
         <div class="feature-list">
             <ul class="list-vue">
                 <li>Supports Vuex</li>
@@ -108,7 +100,6 @@
             </a>
         </div>
     </section>
-
 </div>
 <script>
   (function (i, s, o, g, r, a, m) {
