@@ -759,9 +759,7 @@
        * @return {void}
        */
       select(option) {
-        if (this.isOptionSelected(option)) {
-          this.deselect(option)
-        } else {
+        if (!this.isOptionSelected(option)) {
           if (this.taggable && !this.optionExists(option)) {
             option = this.createOption(option)
           }
@@ -802,9 +800,9 @@
        * Clears the currently selected value(s)
        * @return {void}
        */
-       clearSelection() {
-         this.mutableValue = this.multiple ? [] : null
-       },
+      clearSelection() {
+        this.mutableValue = this.multiple ? [] : null
+      },
 
       /**
        * Called from this.select after each selection.
