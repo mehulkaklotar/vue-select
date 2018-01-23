@@ -2,9 +2,9 @@ import Vue from 'vue'
 import Fuse from 'fuse.js'
 import debounce from 'lodash/debounce'
 import resource from 'vue-resource'
-import vSelect from './components/Select.vue'
-import countries from 'docs/data/advanced.js'
-import fuseSearchOptions from './fuseSearchOptions'
+import vSelect from '../src/components/Select.vue'
+import countries from './data/countryCodes'
+import fuseSearchOptions from './data/books'
 
 Vue.use(resource)
 

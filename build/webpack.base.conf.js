@@ -5,7 +5,7 @@ var projectRoot = path.resolve(__dirname, '../')
 
 module.exports = {
   entry: {
-    app: utils.shouldServeHomepage() ? './docs/homepage/home.js' : './src/dev.js',
+    app: utils.shouldServeHomepage() ? './docs/homepage/home.js' : './dev/dev.js',
   },
   output: {
     path: config.build.assetsRoot,
