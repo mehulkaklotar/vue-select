@@ -40,5 +40,10 @@ new Vue({
         },
       ]
     }
+  },
+  methods: {
+    redirect(option) {
+      window.location = option.url;
+    }
   }
 });
