@@ -7,10 +7,7 @@ import countries from './data/countryCodes'
 import fuseSearchOptions from './data/books'
 
 Vue.use(resource)
-
 Vue.component('v-select', vSelect)
-
-Vue.config.devtools = true
 
 /* eslint-disable no-new */
 new Vue({
