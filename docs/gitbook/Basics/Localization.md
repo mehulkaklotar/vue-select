@@ -34,7 +34,7 @@ All of the text within the component has been wrapped within [slots](https://vue
 *Implementation:*
 ```html
 <v-select>
-	<span slot="no-options">No Options Here!</div>
+	<div slot="no-options">No Options Here!</div>
 </v-select>
 ```
 
