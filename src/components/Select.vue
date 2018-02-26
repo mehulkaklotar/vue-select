@@ -20,7 +20,7 @@
     margin-right: 3px;
     margin-left: 1px;
   }
-  .v-select.rtl .dropdown-menu {
+  .v-select-dropdown-menu.rtl {
     text-align: right;
   }
   .v-select.rtl .dropdown-toggle .clear {
@@ -74,6 +74,7 @@
     background: none;
     border: 1px solid rgba(60, 60, 60, .26);
     border-radius: 4px;
+    box-sizing: border-box;
     white-space: normal;
   }
   .v-select .dropdown-toggle:after {
@@ -112,25 +113,38 @@
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
   }
+  .v-select.open .dropdown-toggle.above {
+    border-top-color: transparent;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-color: rgba(60, 60, 60, .26);
+  }
+
   /* Dropdown Menu */
-  .v-select .dropdown-menu {
+  .v-select-dropdown-menu {
+    font-family: sans-serif;
     display:block;
-    position: absolute;
-    top: 100%;
-    left: 0;
+    position: fixed;
     z-index: 1000;
     min-width: 160px;
     padding: 5px 0;
     margin: 0;
-    width: 100%;
-    overflow-y: scroll;
+    width: auto;
+    overflow-y: auto;
     border: 1px solid rgba(0, 0, 0, .26);
-    box-shadow: 0px 3px 6px 0px rgba(0,0,0,.15);
+    box-shadow: 0 3px 6px 0 rgba(0,0,0,.15);
     border-top: none;
     border-radius: 0 0 4px 4px;
+    box-sizing: border-box;
     text-align: left;
     list-style: none;
     background: #fff;
+  }
+  .v-select-dropdown-menu.above {
+    border-top: 1px solid rgba(0, 0, 0, .26);
+    border-bottom: none;
+    border-radius: 4px 4px 0 0;
+    box-shadow: none;
   }
   .v-select .no-options {
     text-align: center;
@@ -214,24 +228,20 @@
     cursor: pointer;
   }
     /* List Items */
-  .v-select li {
+  .v-select-dropdown-menu li {
     line-height: 1.42857143; /* Normalize line height */
-  }
-  .v-select li > a {
+    cursor: pointer;
     display: block;
     padding: 3px 20px;
     clear: both;
     color: #333; /* Overrides most CSS frameworks */
     white-space: nowrap;
   }
-  .v-select li:hover {
-    cursor: pointer;
-  }
-  .v-select .dropdown-menu .active > a {
+  .v-select-dropdown-menu .active {
     color: #333;
     background: rgba(50, 50, 50, .1);
   }
-  .v-select .dropdown-menu > .highlight > a {
+  .v-select-dropdown-menu > .highlight {
     /*
      * required to override bootstrap 3's
      * .dropdown-menu > li > a:hover {} styles
@@ -346,13 +356,13 @@
               aria-label="Search for option"
       >
 
-      <button 
-        v-show="showClearButton" 
-        :disabled="disabled" 
+      <button
+        v-show="showClearButton"
+        :disabled="disabled"
         @click="clearSelection"
-        type="button" 
-        class="clear" 
-        title="Clear selection" 
+        type="button"
+        class="clear"
+        title="Clear selection"
       >
         <span aria-hidden="true">&times;</span>
       </button>
@@ -365,13 +375,20 @@
     </div>
 
     <transition :name="transition">
-      <ul ref="dropdownMenu" v-if="dropdownOpen" class="dropdown-menu" :style="{ 'max-height': maxHeight }">
-        <li v-for="(option, index) in filteredOptions" v-bind:key="index" :class="{ active: isOptionSelected(option), highlight: index === typeAheadPointer }" @mouseover="typeAheadPointer = index">
-          <a @mousedown.prevent="select(option)">
+      <ul ref="dropdownMenu"
+          v-if="dropdownOpen"
+          :class="['v-select-dropdown-menu', rtlClass]"
+          :style="{ 'max-height': maxHeight }"
+          @mousedown="onMouseDown"
+          @mouseup="onMouseUp">
+        <li v-for="(option, index) in filteredOptions"
+            v-bind:key="index"
+            :class="{ active: isOptionSelected(option), highlight: index === typeAheadPointer }"
+            @mouseover="typeAheadPointer = index"
+            @mousedown.prevent.stop="select(option)">
           <slot name="option" v-bind="(typeof option === 'object')?option:{[label]: option}">
             {{ getOptionLabel(option) }}
           </slot>
-          </a>
         </li>
         <li v-if="!filteredOptions.length" class="no-options">
           <slot name="no-options">Sorry, no matching options.</slot>
@@ -385,6 +402,25 @@
   import pointerScroll from '../mixins/pointerScroll'
   import typeAheadPointer from '../mixins/typeAheadPointer'
   import ajax from '../mixins/ajax'
+  import domHelpers from '../mixins/domHelpers'
+
+  /**
+   * Check for two values are equal.
+   * @param {any} a
+   * @param {any} b
+   * @returns {boolean}
+   */
+  function isEqual (a, b) {
+    let eq = a === b
+
+    if (!eq && a && b && typeof a === 'object' && typeof b === 'object') {
+      eq = Object.keys(a).every((key) => {
+        return !a.hasOwnProperty(key) || typeof key === 'function' ||
+          key[0] === '_' || a[key] === b[key]
+      })
+    }
+    return eq
+  }
 
   export default {
     mixins: [pointerScroll, typeAheadPointer, ajax],
@@ -685,12 +721,12 @@
     watch: {
       /**
        * When the value prop changes, update
-			 * the internal mutableValue.
+       * the internal mutableValue.
        * @param  {mixed} val
        * @return {void}
        */
       value(val) {
-				this.mutableValue = val
+        this.mutableValue = val
       },
 
       /**
@@ -699,11 +735,16 @@
        * @param  {string|object} old
        * @return {void}
        */
-			mutableValue(val, old) {
+      mutableValue(val, old) {
         if (this.multiple) {
-          this.onChange ? this.onChange(val) : null
+          // check for first call to avoid change triggering on value initialization
+          if (this.onChange && this.initialized) {
+            this.onChange(val)
+          } else {
+            this.initialized = true
+          }
         } else {
-          this.onChange && val !== old ? this.onChange(val) : null
+          if (this.onChange && !isEqual(val, old)) this.onChange(val)
         }
       },
 
@@ -724,7 +765,8 @@
        */
       mutableOptions() {
         if (!this.taggable && this.resetOnOptionsChange) {
-					this.mutableValue = this.multiple ? [] : null
+          this.mutableValue = this.multiple ? [] : null
+          this.positionDropdown()
         }
       },
 
@@ -735,7 +777,7 @@
        * @return {void}
        */
       multiple(val) {
-				this.mutableValue = val ? [] : null
+        this.mutableValue = val ? [] : null
       }
     },
 
@@ -744,11 +786,54 @@
      * attach any event listeners.
      */
     created() {
-			this.mutableValue = this.value
+      this.mutableValue = this.value
       this.mutableOptions = this.options.slice(0)
-			this.mutableLoading = this.loading
+      this.mutableLoading = this.loading
 
       this.$on('option:created', this.maybePushTag)
+    },
+
+    /**
+     * Set on scroll listener.
+     */
+    mounted () {
+      const elements = domHelpers.getScrollableElements(this.$el)
+
+      if (!this.scrollHandler && elements.length) {
+        this.scrollHandler = () => {
+          if (this.open) {
+            // on scroll close the dropdown
+            this.open = false
+            this.$refs.search.blur()
+            this.mousedown = false
+          }
+        }
+        if (typeof window === 'object') {
+          window.document.addEventListener('scroll', this.scrollHandler)
+        }
+
+        elements.forEach((el) => {
+          // set handler on scroll event to close the dropdown
+          el.addEventListener('scroll', this.scrollHandler)
+        })
+        // save element and handler to remove event on the component destroy
+        this.subscribedElements = elements
+      }
+    },
+
+    /**
+     * Before destroy lifecycle event handler.
+     * Remove scroll event handlers.
+     */
+    beforeDestroy () {
+      if (this.scrollHandler) {
+        if (typeof window === 'object') {
+          window.document.removeEventListener('scroll', this.scrollHandler)
+        }
+        this.subscribedElements.forEach((el) => {
+          el.removeEventListener('scroll', this.scrollHandler)
+        })
+      }
     },
 
     methods: {
@@ -818,6 +903,7 @@
         if (this.clearSearchOnSelect) {
           this.search = ''
         }
+        this.mousedown = false
       },
 
       /**
@@ -868,6 +954,7 @@
        * @return {void}
        */
       onEscape() {
+        this.mousedown = false
         if (!this.search.length) {
           this.$refs.search.blur()
         } else {
@@ -881,11 +968,22 @@
        * @return {void}
        */
       onSearchBlur() {
-        if (this.clearSearchOnBlur) {
-          this.search = ''
+        if (!this.mousedown) {
+          if (this.clearSearchOnBlur) {
+            this.search = ''
+          }
+          this.open = false
+          this.$emit('search:blur')
         }
-        this.open = false
-        this.$emit('search:blur')
+      },
+
+      /**
+       * Positioning the dropdown list on a screen.
+       */
+      positionDropdown () {
+        this.$nextTick(() => {
+          domHelpers.positionDropdown(this.$refs.toggle, this.$refs.dropdownMenu)
+        })
       },
 
       /**
@@ -894,8 +992,14 @@
        * @return {void}
        */
       onSearchFocus() {
-        this.open = true
-        this.$emit('search:focus')
+        if (this.mousedown) {
+          this.mousedown = false
+        } else {
+          this.open = true
+          this.$emit('search:focus')
+
+          this.positionDropdown()
+        }
       },
 
       /**
@@ -941,6 +1045,29 @@
         if (this.pushTags) {
           this.mutableOptions.push(option)
         }
+      },
+
+      /**
+       * Event-Handler to help workaround IE11
+       * firing a `blur` event when clicking
+       * the dropdown's scrollbar, causing it
+       * to collapse abruptly.
+       * @return {void}
+       */
+      onMouseDown () {
+        this.mousedown = true
+      },
+
+      /**
+       * Workaround for IE11.
+       * Set search input focus back if mouse up on scrollbar.
+       */
+      onMouseUp () {
+        if (this.mousedown && document.activeElement !== this.$refs.search) {
+          this.$refs.search.focus()
+        } else {
+          this.mousedown = false
+        }
       }
     },
 
@@ -961,6 +1088,14 @@
           rtl: this.dir === 'rtl',
           disabled: this.disabled
         }
+      },
+
+      /**
+       * Class for dropdown menu if dir set to 'rtl'
+       * @return {string}
+       */
+      rtlClass () {
+        return this.dir === 'rtl' ? 'rtl' : ''
       },
 
       /**
@@ -1016,6 +1151,8 @@
         if (this.taggable && this.search.length && !this.optionExists(this.search)) {
           options.unshift(this.search)
         }
+        this.positionDropdown()
+
         return options
       },
 

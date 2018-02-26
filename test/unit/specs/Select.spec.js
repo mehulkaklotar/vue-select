@@ -274,12 +274,13 @@ describe('Select.vue', () => {
 					}
 				}).$mount()
 
-				vm.$refs.select.select('bar')
-
 				Vue.nextTick(() => {
-					expect(vm.foo).toEqual(['foo','bar'])
-					done()
-				})
+          vm.$refs.select.select('bar')
+          Vue.nextTick(() => {
+            expect(vm.foo).toEqual(['foo', 'bar'])
+            done()
+          })
+        })
 
 			})
 		})
@@ -1377,7 +1378,7 @@ describe('Select.vue', () => {
 					value: 'foo'
 				}
 			}).$mount()
-			
+
 			expect(vm.mutableValue).toEqual('foo')
 			vm.$el.querySelector( 'button.clear' ).click()
 			expect(vm.mutableValue).toEqual(null)
@@ -1396,6 +1397,6 @@ describe('Select.vue', () => {
 			const buttonEl = vm.$el.querySelector( 'button.clear' )
 			expect(buttonEl.disabled).toEqual(true);
 		})
-	
+
 	});
 })

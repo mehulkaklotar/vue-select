@@ -15,7 +15,7 @@ module.exports = {
    * @param {HTMLElement} element - element to calculate offset for.
    * @returns {Offset} element offset object.
    */
-  getOffset: function(element) {
+  getOffset (element) {
     let el = element.offsetParent
     let parentEl = element.parentElement
     let top = element.offsetTop
@@ -47,18 +47,36 @@ module.exports = {
    * @param {string}      [aboveCssClass='above'] CSS class to apply
    * if target element should be positioning above the base element.
    */
-  positionDropdown(baseElement, targetElement, aboveCssClass = 'above') {
-    const offset = this.getOffset(baseElement)
+  positionDropdown (baseElement, targetElement, aboveCssClass = 'above') {
+    const offset = baseElement && this.getOffset(baseElement)
 
-    targetElement.style.minWidth = `${baseElement.offsetWidth}px`
-    targetElement.style.left = `${offset.left}px`
+    if (baseElement && targetElement) {
+      const targetHeight = targetElement.offsetHeight
 
-    if (offset.maxHeight < targetElement.offsetHeight) {
-      targetElement.style.top = `${offset.top - targetElement.offsetHeight + 1}px`
-      targetElement.classList.add(aboveCssClass)
-    } else {
-      targetElement.style.top = `${offset.top + baseElement.offsetHeight - 1}px`
-      targetElement.classList.remove(aboveCssClass)
+      // move it to the <body> to avoid glitches in IE
+      document.body.appendChild(targetElement)
+
+      targetElement.style.minWidth = `${baseElement.offsetWidth}px`
+      targetElement.style.left = `${offset.left}px`
+
+      if (offset.maxHeight < targetHeight && offset.top > targetHeight / 2) {
+        let top = offset.top - targetHeight + 1
+
+        if (top < 0) {
+          top = 0
+          targetElement.style.maxHeight = `${offset.top}px`
+        }
+        targetElement.style.top = `${top}px`
+        baseElement.classList.add(aboveCssClass)
+        targetElement.classList.add(aboveCssClass)
+      } else {
+        if (offset.maxHeight < targetHeight) {
+          targetElement.style.maxHeight = `${offset.maxHeight}px`
+        }
+        targetElement.style.top = `${offset.top + baseElement.offsetHeight - 1}px`
+        baseElement.classList.remove(aboveCssClass)
+        targetElement.classList.remove(aboveCssClass)
+      }
     }
   },
 
@@ -71,7 +89,7 @@ module.exports = {
     const elements = []
     let el = targetElement.parentElement
 
-    while (el && el.tagName !== "HTML") {
+    while (el && el.tagName !== 'HTML') {
       if (el.offsetHeight < el.scrollHeight) {
         elements.push(el)
       }
