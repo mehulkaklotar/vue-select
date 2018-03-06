@@ -320,7 +320,7 @@
 
 <template>
   <div :dir="dir" class="dropdown v-select" :class="dropdownClasses">
-    <div ref="toggle" @mousedown.prevent="toggleDropdown" :class="['dropdown-toggle', 'clearfix']">
+    <div ref="toggle" @mousedown.prevent="toggleDropdown" :class="['dropdown-toggle', 'clearfix',dropdownPositionClass]">
 
       <slot v-for="option in valueAsArray" name="selected-option-container"
             :option="(typeof option === 'object')?option:{[label]: option}" :deselect="deselect" :multiple="multiple" :disabled="disabled">
@@ -377,7 +377,7 @@
     <transition :name="transition">
       <ul ref="dropdownMenu"
           v-if="dropdownOpen"
-          :class="['v-select-dropdown-menu', rtlClass]"
+          :class="['v-select-dropdown-menu', rtlClass,dropdownPositionClass]"
           :style="{ 'max-height': maxHeight }"
           @mousedown="onMouseDown"
           @mouseup="onMouseUp">
@@ -435,6 +435,12 @@
       value: {
         default: null
       },
+
+
+        dropdownPosition : {
+          type: String,
+          default: 'below'
+        },
 
       /**
        * An array of strings or objects to be used as dropdown choices.
@@ -768,7 +774,7 @@
       },
 
       /**
-			 * Maybe reset the mutableValue
+       * Maybe reset the mutableValue
        * when mutableOptions change.
        * @return {[type]} [description]
        */
@@ -780,7 +786,7 @@
       },
 
       /**
-			 * Always reset the mutableValue when
+       * Always reset the mutableValue when
        * the multiple prop changes.
        * @param  {Boolean} val
        * @return {void}
@@ -1105,6 +1111,14 @@
        */
       rtlClass () {
         return this.dir === 'rtl' ? 'rtl' : ''
+      },
+
+      /**
+       * Class for dropdown menu if dir set to 'rtl'
+       * @return {string}
+       */
+      dropdownPositionClass () {
+        return this.dropdownPosition === 'above' ? 'above' : ''
       },
 
       /**

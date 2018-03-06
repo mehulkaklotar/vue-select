@@ -1,8 +1,8 @@
 {
-  "name": "vue-select",
-  "version": "2.4.0",
+  "name": "vue-select-mehul",
+  "version": "1.0.0",
   "description": "A native Vue.js component that provides similar functionality to Select2 without the overhead of jQuery.",
-  "author": "Jeff Sagal <sagalbot@gmail.com>",
+  "author": "Mehul Kaklotar <mehul.kaklotar@gmail.com>",
   "private": false,
   "main": "dist/vue-select.js",
   "license": "MIT",
@@ -21,7 +21,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/sagalbot/vue-select.git"
+    "url": "https://github.com/mehulkaklotar/vue-select.git"
   },
   "peerDependencies": {
     "vue": "2.x"
